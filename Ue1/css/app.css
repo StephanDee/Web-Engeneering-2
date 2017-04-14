@@ -1,11 +1,18 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: "Verdana", serif;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    text-shadow: black 0 2px 4px;
 }
 
 a:hover {
-    color: #C0C0C0 !important;
-    text-shadow: red 0 0 4px !important;
+    color: #C0C0C0;
+    text-shadow: red 0 0 4px;
 }
 
 header {
@@ -14,6 +21,10 @@ header {
     box-shadow: red 0 0 4px;
     width: 100%;
     position: fixed;
+
+    /**
+    * The header is always infront of all other objects.
+    **/
     z-index: 100;
     left: 0;
     top: 0;
@@ -40,13 +51,17 @@ header {
 .footericons {
     width: 40px;
     height: 40px;
-    border: none;
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
 footer {
+    /**
+     * clear both, because floats of the other elements can make the footer jump into a higher position than these elements.
+     **/
+    clear: both;
+
     text-align: right;
     padding: 30px;
     background: rgba(0, 0, 0, 1);
@@ -78,49 +93,42 @@ footer a:hover {
     text-shadow: red 0 0 4px !important;
 }
 
-a {
-    text-decoration: none !important;
-    color: white !important;
-    text-shadow: black 0 2px 4px !important;
-}
-
 nav li {
     display: inline;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 nav {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-right: 30px;
     float: right;
 }
 
-.suche {
+.search {
     display: inline;
     text-shadow: white 0 0 4px;
     box-shadow: black 0 0 4px;
     font-size: 1em;
-    padding: 4px 4px 4px 8px;
+    padding: 0 0 0 8px;
     color: black !important;
     border-radius: 10px;
     background: rgba(255, 255, 255, 1);
     width: 220px !important;
 }
 
-.suche:-webkit-autofill {
+.search:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 50px white inset;
     -webkit-text-fill-color: black;
 }
 
-.suche:-webkit-autofill:focus {
+.search:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 50px white inset;
     -webkit-text-fill-color: black;
 }
 
-.suche:focus,
-.suche:hover {
+.search:focus,
+.search:hover {
     border-radius: 10px;
-    max-width: 300px !important;
     text-decoration: none;
     box-shadow: red 0 0 30px;
 }
@@ -129,7 +137,7 @@ nav {
     display: inline;
     box-shadow: black 0 0 4px;
     font-size: 1em;
-    padding: 4px 4px 4px 8px;
+    padding: 0 0 0 8px;
     color: black;
     border-radius: 10px;
     background: rgba(255, 255, 255, 1);
@@ -145,28 +153,62 @@ nav {
     background-color: black;
 }
 
-section {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    max-width: 1000px;
-}
-
-.articlecontainer {
-    padding: 20px;
-    margin-bottom: 20px;
-    float: left;
-    max-width: 600px;
-    border-right: 2px solid rgba(255, 255, 255, 0.4);
-}
-
 article {
+    display: flex;
+    flex-direction: column;
+    float: left;
     padding: 20px;
-    margin-top: -1px;
-    margin-bottom: -1px;
+    margin-top: 10px;
 }
 
+aside {
+    padding: 120px 20px 20px 20px;
+    margin-top: 10px;
+    color: white !important;
+
+    float: right;
+    width: 150px;
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: red 0 0 4px;
+}
+
+aside li {
+    list-style: none;
+}
+
+.flexleft-box {
+    display: flex;
+    flex-direction: row;
+    float: left;
+    margin-top: 100px;
+    max-width: 825px;
+}
+
+.gallery {
+    width: 236px;
+}
+
+#aside-button {
+    padding: 5px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: blue;
+}
+
+#aside-button:hover {
+    box-shadow: red 0 0 30px;
+}
+#aside-button:active {
+    color: white;
+    background-color: black;
+}
+
+/**
+* A line to separate elements.
+* Its a design-feature.
+**/
 .line {
     height: 1px;
     border-bottom: 1px solid #ddd;
