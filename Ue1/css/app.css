@@ -21,7 +21,6 @@ header {
     box-shadow: red 0 0 4px;
     width: 100%;
     position: fixed;
-
     /**
     * The header is always infront of all other objects.
     **/
@@ -61,7 +60,6 @@ footer {
      * clear both, because floats of the other elements can make the footer jump into a higher position than these elements.
      **/
     clear: both;
-
     text-align: right;
     padding: 30px;
     background: rgba(0, 0, 0, 1);
@@ -156,7 +154,6 @@ nav {
 article {
     display: flex;
     flex-direction: column;
-    float: left;
     padding: 20px;
     margin-top: 10px;
 }
@@ -164,10 +161,9 @@ article {
 aside {
     padding: 120px 20px 20px 20px;
     margin-top: 10px;
-    color: white !important;
-
     float: right;
     width: 150px;
+    color: white !important;
     background-color: black;
     border-radius: 10px;
     box-shadow: red 0 0 4px;
@@ -177,7 +173,7 @@ aside li {
     list-style: none;
 }
 
-.flexleft-box {
+.flexbox-left {
     display: flex;
     flex-direction: row;
     float: left;
