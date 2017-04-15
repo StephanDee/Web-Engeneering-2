@@ -15,6 +15,6 @@ function xxx() {
 function xxxxx() {
     if (xxx.selectedIndex == 0) {
         document.getElementById("xxxx").style.display = "inline";
-        document.getElementById("xxxx").innerHTML = "text";
+        document.getElementById("xxxx").innerHTML = "text-test";
     }
 }
