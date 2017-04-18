@@ -4,10 +4,17 @@
     font-family: "Verdana", serif;
 }
 
+h1 + img {
+    margin-top: 20px;
+}
+
+h1 + ul {
+    margin-top: 20px;
+}
+
 a {
     text-decoration: none;
     color: white;
-    text-shadow: black 0 2px 4px;
 }
 
 a:hover {
@@ -17,7 +24,7 @@ a:hover {
 
 header {
     padding: 10px;
-    background: rgba(0, 0, 0, 1);
+    background: black;
     box-shadow: red 0 0 4px;
     width: 100%;
     position: fixed;
@@ -47,32 +54,31 @@ header {
     margin-left: 20px;
 }
 
-.footericons {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
 footer {
     /**
      * clear both, because floats of the other elements can make the footer jump into a higher position than these elements.
      **/
     clear: both;
+
+    /**
+    * To put the Footericons to the right side.
+    **/
     text-align: right;
+
     padding: 30px;
-    background: rgba(0, 0, 0, 1);
-    box-shadow: red 0 0 4px;
+    background: black;
     bottom: 0;
 }
 
 footer p {
-    color: white !important;
-    font-size: 10pt !important;
-    text-shadow: black 0 0 4px !important;
-    display: inline !important;
-    text-align: center !important;
+    color: white;
+    font-size: 10pt;
+    display: inline;
+    text-align: center;
+}
+
+footer a {
+    font-size: 10pt;
 }
 
 .footer-text {
@@ -80,15 +86,12 @@ footer p {
     margin: 0 0 20px 0;
 }
 
-footer a {
-    font-size: 10pt !important;
-    text-shadow: black 0 2px 4px !important;
-    display: inline !important;
-}
-
-footer a:hover {
-    color: #C0C0C0 !important;
-    text-shadow: red 0 0 4px !important;
+.footericons {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 nav li {
@@ -102,55 +105,6 @@ nav {
     float: right;
 }
 
-.search {
-    display: inline;
-    text-shadow: white 0 0 4px;
-    box-shadow: black 0 0 4px;
-    font-size: 1em;
-    padding: 0 0 0 8px;
-    color: black !important;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 1);
-    width: 220px !important;
-}
-
-.search:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 50px white inset;
-    -webkit-text-fill-color: black;
-}
-
-.search:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 50px white inset;
-    -webkit-text-fill-color: black;
-}
-
-.search:focus,
-.search:hover {
-    border-radius: 10px;
-    text-decoration: none;
-    box-shadow: red 0 0 30px;
-}
-
-.submit {
-    display: inline;
-    box-shadow: black 0 0 4px;
-    font-size: 1em;
-    padding: 0 0 0 8px;
-    color: black;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 1);
-    max-width: 180px !important;
-}
-
-.submit:hover {
-    box-shadow: red 0 0 30px;
-}
-
-.submit:active {
-    color: white;
-    background-color: black;
-}
-
 article {
     display: flex;
     flex-direction: column;
@@ -159,33 +113,28 @@ article {
 }
 
 aside {
-    padding: 120px 20px 20px 20px;
-    margin-top: 10px;
-    float: right;
+    padding: 30px 20px 20px 20px;
     width: 150px;
-    color: white !important;
-    background-color: black;
-    border-radius: 10px;
-    box-shadow: red 0 0 4px;
+    color: white;
+    background-color: gray;
 }
 
 aside li {
     list-style: none;
 }
 
-.flexbox-left {
+.flexbox {
     display: flex;
     flex-direction: row;
-    float: left;
-    margin-top: 100px;
-    max-width: 825px;
+    margin-top: 70px;
 }
 
 .gallery {
     width: 236px;
 }
 
-#aside-button {
+#addimage-button {
+    margin-top: 20px;
     padding: 5px;
     border: none;
     border-radius: 8px;
@@ -193,13 +142,51 @@ aside li {
     background-color: blue;
 }
 
-#aside-button:hover {
+#addimage-button:hover {
+    color: #C0C0C0;
     box-shadow: red 0 0 30px;
 }
-#aside-button:active {
+#addimage-button:active {
     color: white;
     background-color: black;
 }
+
+
+
+
+/**
+ * Julius image.css
+ **/
+.picture-frame {
+    width: 236px;
+    height: 100%;
+    background-size: 236px 100%;
+    text-align: center;
+}
+.picture-button-frame {
+    display: none;
+    margin: auto;
+    width: 50%;
+    top: 50%;
+    position:relative;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.like-button {
+    background-color: dodgerblue;
+    border-radius: 5px;
+    width: 100px;
+}
+.detail-button {
+    background-color: beige;
+    border-radius: 5px;
+    width: 80px;
+}
+
+
+
+
 
 /**
 * A line to separate elements.
