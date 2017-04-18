@@ -7,9 +7,10 @@
     <meta name="Predator" content="Julius, Nesrin, Stephan">
     <meta name="description" content="Improvement at it's Best.">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/image.css">
 </head>
 
-<body>
+<body onload="initElement()";>
 <header class="header">
     <a href="index.html">
         <img src="images/Predator-Logo-1.png" alt="logo" class="headerlogo"/>
@@ -55,8 +56,18 @@
     <article>
         <h1 id="cars">Cars</h1>
         <br>
-        <img src="images/gallery/car1.jpg" class="gallery">
-        <img src="images/gallery/car2.png" class="gallery">
+        <div class="picture-frame" style="background-image: url(images/gallery/car1.jpg);">
+            <div class="picture-button-frame">
+                <input type="button" value="Gef&auml;llt mir" class="like-button"><br>
+                <input type="button" value="Details" class="details-button">
+            </div>
+        </div>
+        <div class="picture-frame" style="background-image: url(images/gallery/car2.png);">
+            <div class="picture-button-frame">
+                <input type="button" value="Gef&auml;llt mir" class="like-button"><br>
+                <input type="button" value="Details" class="details-button">
+            </div>
+        </div>
         <img src="images/gallery/car3.gif" class="gallery">
         <img src="images/gallery/car4.jpg" class="gallery">
         <img src="images/gallery/car5.jpg" class="gallery">
@@ -93,6 +104,7 @@
         </a>
     </div>
 </footer>
+<script src="js/app.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,29 @@
+.picture-frame {
+    width: 236px;
+    height: 100%;
+    background-size: 236px 100%;
+    text-align: center;
+}
+
+.picture-button-frame {
+    display: none;
+    margin: auto;
+    width: 50%;
+    top: 50%;
+    position:relative;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.like-button {
+    background-color: dodgerblue;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.details-button {
+    background-color: beige;
+    border-radius: 5px;
+    width: 80px;
+}
