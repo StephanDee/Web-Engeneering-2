@@ -1,3 +1,60 @@
+function imageevent() {
+    document.getElementById("image1").addEventListener("mouseover", showButtons, true);
+    // document.getElementById("image1").addEventListener("mouseout", hideButtons, true);
+    document.getElementById("likebutton").addEventListener("click", setStatus, true);
+    document.getElementById("detailbutton").addEventListener("click", openModal, true);
+
+    // modal
+    document.getElementsByClassName("close")[0].addEventListener("click", closeModal, true);
+}
+
+var addFunctionOnWindowLoad = function (callback) {
+    if (window.addEventListener) {
+        window.addEventListener('load', callback, false);
+    } else {
+        window.attachEvent('onload', callback);
+    }
+}
+
+addFunctionOnWindowLoad(imageevent);
+
+function showButtons(image1) {
+    document.getElementById("image1").style.opacity = "0.5";
+    document.getElementById("likebutton").style.visibility = "visible";
+    document.getElementById("detailbutton").style.visibility = "visible";
+    }
+
+/**
+function hideButtons(image1) {
+    document.getElementById("image1").style.opacity = "1";
+    document.getElementById("likebutton").style.visibility = "hidden";
+    document.getElementById("detailbutton").style.visibility = "hidden";
+}
+ **/
+
+function setStatus(likebutton) {
+    document.getElementById("likebutton").style.backgroundColor = "red";
+    document.getElementById("likebutton").innerHTML = "gefällt mir!";
+}
+
+function openModal(myModal){
+    document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal(myModal){
+    document.getElementById("myModal").style.display = "none";
+}
+
+
+
+
+
+
+
+
+
+
+/**
 window.addEventListener("load", function (event) {
     
     var pics = document.getElementsByTagName("img");
@@ -21,7 +78,7 @@ window.addEventListener("load", function (event) {
         });
     }
 });
-
+ **/
 
 /**
 window.onload = function () {

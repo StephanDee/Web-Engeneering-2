@@ -51,12 +51,27 @@
         </div>
         -->
 
-        <img src="images/gallery/car1.jpg" class="gallery">
-        <div class="picture-button-frame">
-            <button type="button" value="Gef&auml;llt mir" class="like-button" name="like-button"
+        <img src="images/gallery/car1.jpg" class="gallery" id="image1">
+            <button type="button" value="Gef&auml;llt mir" id="likebutton" name="likebutton"
                     title="Gef&auml;llt mir">Like</button>
-            <button type="button" value="Details" class="detail-button" name="detail-button" title="Details">Details</button>
+            <button type="button" value="Details" id="detailbutton" name="detailbutton" title="Details">Details</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <h2>Bild herunterladen</h2>
+                </div>
+                <div class="modal-body">
+                    <img src="images/gallery/car1.jpg" class="modalgallery">
+                </div>
+            </div>
+
         </div>
+
+
 
         <img src="images/gallery/car2.png" class="gallery">
         <img src="images/gallery/car3.gif" class="gallery">
