@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="651e6eaa-ca39-4dce-b15d-15a1d17451a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
     </list>
     <ignored path="Ue1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -256,7 +255,7 @@
       <workItem from="1492534731665" duration="7051000" />
       <workItem from="1492596770702" duration="10450000" />
       <workItem from="1492610617248" duration="745000" />
-      <workItem from="1492847932571" duration="2870000" />
+      <workItem from="1492847932571" duration="2934000" />
     </task>
     <task id="LOCAL-00001" summary="branch-test">
       <created>1492242116405</created>
@@ -307,11 +306,18 @@
       <option name="project" value="LOCAL" />
       <updated>1492848457974</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Hotfix - js update">
+      <created>1492851299347</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1492851299347</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51853000" />
+    <option name="totallyTimeSpent" value="51917000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -371,7 +377,8 @@
     <MESSAGE value="Hotfix - html-layout update, julius-stephan code merged - deleted image.css from julius -&gt; putted into app.css" />
     <MESSAGE value="new Features - like-button, detail-button - mouse, -click events added (at the moment just with getElementById)." />
     <MESSAGE value="Hotfix - GetElementById() changed to ...ClassName()[]" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hotfix - GetElementById() changed to ...ClassName()[]" />
+    <MESSAGE value="Hotfix - js update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hotfix - js update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
