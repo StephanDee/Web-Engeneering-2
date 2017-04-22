@@ -157,7 +157,7 @@ aside li {
 /**
 * Javascript buttons part.
 **/
-#likebutton, #detailbutton {
+.likebutton, .detailbutton {
     visibility: hidden;
     border: none;
     border-radius: 5px;
@@ -165,11 +165,11 @@ aside li {
     z-index: 1;
 }
 
-#likebutton {
+.likebutton {
     background-color: dodgerblue;
 }
 
-#detailbutton {
+.detailbutton {
     background-color: beige;
 }
 

@@ -1,8 +1,8 @@
 function imageevent() {
-    document.getElementById("image1").addEventListener("mouseover", showButtons, true);
-    // document.getElementById("image1").addEventListener("mouseout", hideButtons, true);
-    document.getElementById("likebutton").addEventListener("click", setStatus, true);
-    document.getElementById("detailbutton").addEventListener("click", openModal, true);
+    document.getElementsByClassName("gallery")[0].addEventListener("mouseover", showButtons, true);
+    // document.getElementByClassName("gallery")[0].addEventListener("mouseout", hideButtons, true);
+    document.getElementsByClassName("likebutton")[0].addEventListener("click", setStatus, true);
+    document.getElementsByClassName("detailbutton")[0].addEventListener("click", openModal, true);
 
     // modal
     document.getElementsByClassName("close")[0].addEventListener("click", closeModal, true);
@@ -19,22 +19,22 @@ var addFunctionOnWindowLoad = function (callback) {
 addFunctionOnWindowLoad(imageevent);
 
 function showButtons(image1) {
-    document.getElementById("image1").style.opacity = "0.5";
-    document.getElementById("likebutton").style.visibility = "visible";
-    document.getElementById("detailbutton").style.visibility = "visible";
+    document.getElementsByClassName("gallery")[0].style.opacity = "0.5";
+    document.getElementsByClassName("likebutton")[0].style.visibility = "visible";
+    document.getElementsByClassName("detailbutton")[0].style.visibility = "visible";
     }
 
 /**
 function hideButtons(image1) {
-    document.getElementById("image1").style.opacity = "1";
-    document.getElementById("likebutton").style.visibility = "hidden";
-    document.getElementById("detailbutton").style.visibility = "hidden";
+    document.getElementsByClassName("gallery")[0].style.opacity = "1";
+    document.getElementsByClassName("likebutton")[0].style.visibility = "hidden";
+    document.getElementsByClassName("detailbutton")[0].style.visibility = "hidden";
 }
  **/
 
 function setStatus(likebutton) {
-    document.getElementById("likebutton").style.backgroundColor = "red";
-    document.getElementById("likebutton").innerHTML = "gefällt mir!";
+    document.getElementsByClassName("likebutton")[0].style.backgroundColor = "red";
+    document.getElementsByClassName("likebutton")[0].innerHTML = "gefällt mir!";
 }
 
 function openModal(myModal){
