@@ -21,19 +21,39 @@ function imageevent() {
             var detail = details[i];
 
             pic.addEventListener("mouseover", function showButtons(event) {
-                pics[i].style.opacity = "0.5";
-                likes[i].style.visibility = "visible";
-                details[i].style.visibility = "visible";
+                pic.style.opacity = "0.5";
+                like.style.visibility = "visible";
+                detail.style.visibility = "visible";
+            }, false);
+
+            pic.addEventListener("mouseout", function (event) {
+                pic.style.opacity = "1";
             }, false);
 
             // pic.addEventListener("mouseout", hideButtons, true);
 
             like.addEventListener("click", function setStatus(event) {
-                likes[i].style.backgroundColor = "red";
-                likes[i].innerHTML = "gefällt mir!";
+                like.style.backgroundColor = "red";
+                like.innerHTML = "gefällt mir!";
+            }, false);
+
+            like.addEventListener("mouseover", function hoverLike(event) {
+                like.style.boxShadow = "0px 0px 4px red";
+            }, false);
+
+            like.addEventListener("mouseout", function hoverOutLike(event) {
+                like.style.boxShadow = "none";
             }, false);
 
             detail.addEventListener("click", openModal, false);
+
+            detail.addEventListener("mouseover", function hoverDetail(event) {
+                detail.style.boxShadow = "0px 0px 4px red";
+            }, false);
+
+            detail.addEventListener("mouseout", function hoverOutDetail(event) {
+                detail.style.boxShadow = "none";
+            }, false);
 
             // modal
             document.getElementsByClassName("close")[0].addEventListener("click", closeModal, true);

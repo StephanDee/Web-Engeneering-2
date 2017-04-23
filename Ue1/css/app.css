@@ -156,6 +156,7 @@ aside li {
 **/
 .likebutton, .detailbutton {
     visibility: hidden;
+    margin: 5px 0 5px 0;
     border: none;
     border-radius: 5px;
     width: 80px;
