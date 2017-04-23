@@ -4,12 +4,13 @@ var addFunctionOnWindowLoad = function (callback) {
     } else {
         window.attachEvent('onload', callback);
     }
-}
+};
 
 addFunctionOnWindowLoad(imageevent);
 
 function imageevent() {
     var pics = document.getElementsByClassName("gallery");
+    var modalpics = document.getElementsByClassName("modalgallery");
     var likes = document.getElementsByClassName("likebutton");
     var details = document.getElementsByClassName("detailbutton");
 
@@ -17,74 +18,64 @@ function imageevent() {
 
         (function (i) {
             var pic = pics[i];
+            var modalpic = modalpics[i];
             var like = likes[i];
             var detail = details[i];
+            var flag = true;
 
-            pic.addEventListener("mouseover", function showButtons(event) {
-                pic.style.opacity = "0.5";
+            pic.addEventListener("mouseover", function showButtons() {
+                pic.style.boxShadow = "0 0 4px red";
                 like.style.visibility = "visible";
                 detail.style.visibility = "visible";
             }, false);
 
-            pic.addEventListener("mouseout", function (event) {
-                pic.style.opacity = "1";
+            pic.addEventListener("mouseout", function picOut() {
+                pic.style.boxShadow = "none";
             }, false);
 
-            // pic.addEventListener("mouseout", hideButtons, true);
-
-            like.addEventListener("click", function setStatus(event) {
-                like.style.backgroundColor = "red";
-                like.innerHTML = "gefällt mir!";
+            like.addEventListener("click", function setStatus() {
+                if (flag === true) {
+                    like.style.backgroundColor = "firebrick";
+                    like.innerHTML = "not Like";
+                    flag = false;
+                } else {
+                    like.style.backgroundColor = "dodgerblue";
+                    like.innerHTML = "Like";
+                    flag = true;
+                }
             }, false);
 
-            like.addEventListener("mouseover", function hoverLike(event) {
+            like.addEventListener("mouseover", function hoverLike() {
                 like.style.boxShadow = "0px 0px 4px red";
             }, false);
 
-            like.addEventListener("mouseout", function hoverOutLike(event) {
+            like.addEventListener("mouseout", function hoverOutLike() {
                 like.style.boxShadow = "none";
             }, false);
 
-            detail.addEventListener("click", openModal, false);
+            // open Modal
+            var openmod = document.getElementById("myModal");
 
-            detail.addEventListener("mouseover", function hoverDetail(event) {
+            detail.addEventListener("click", function showModalpic() {
+                modalpic.style.visibility = "visible";
+                openmod.style.display = "block";
+            }, false);
+
+            detail.addEventListener("mouseover", function hoverDetail() {
                 detail.style.boxShadow = "0px 0px 4px red";
             }, false);
 
-            detail.addEventListener("mouseout", function hoverOutDetail(event) {
+            detail.addEventListener("mouseout", function hoverOutDetail() {
                 detail.style.boxShadow = "none";
             }, false);
 
-            // modal
-            document.getElementsByClassName("close")[0].addEventListener("click", closeModal, true);
+            // close Modal
+            var closemod = document.getElementsByClassName("close");
+
+            closemod[0].addEventListener("click", function closeModal() {
+                openmod.style.display = "none";
+                modalpic.style.visibility = "hidden";
+            }, false);
         })(i);
     }
 }
-
-function openModal(myModal) {
-    document.getElementById("myModal").style.display = "block";
-}
-
-function closeModal(myModal) {
-    document.getElementById("myModal").style.display = "none";
-}
-
-// function showButtons(gallery) {
-//     // this. -> img event
-//     pics[i].style.opacity = "0.5";
-//     likes[i].style.visibility = "visible";
-//     details[i].style.visibility = "visible";
-//     }
-//
-// /**
-// function hideButtons(gallery) {
-//     pics[0].style.opacity = "1";
-//     likes[0].style.visibility = "hidden";
-//     detail[0].style.visibility = "hidden";
-// }
-//  **/
-//
-// function setStatus(likebutton) {
-//     likes[i].style.backgroundColor = "red";
-//     likes[i].innerHTML = "gefällt mir!";
-// }
