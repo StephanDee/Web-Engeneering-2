@@ -1,3 +1,4 @@
+// Adds additional window.onload events.
 var addFunctionOnWindowLoad = function (callback) {
     if (window.addEventListener) {
         window.addEventListener('load', callback, false);
@@ -6,8 +7,12 @@ var addFunctionOnWindowLoad = function (callback) {
     }
 };
 
+// Add functions, will be loaded ordered from top to bottom.
 addFunctionOnWindowLoad(imageevent);
 
+/**
+ * Contains all imageevent listeners of the articles.
+ */
 function imageevent() {
     var pics = document.getElementsByClassName("gallery");
     var modalpics = document.getElementsByClassName("modalgallery");
@@ -18,7 +23,14 @@ function imageevent() {
 
     for (var i = 0; i < pics.length; i++) {
 
-        (function (i) {
+        (/**
+         * Eventlisteners are described here.
+         * Closure function to hide its functionality as a blackbox.
+         * Also used this function to get access to the i parameter.
+         *
+         * @param i The classnumber of the activated element.
+         */
+            function (i) {
             var pic = pics[i];
             var modalpic = modalpics[i];
             var like = likes[i];
@@ -27,16 +39,19 @@ function imageevent() {
             var detail = details[i];
             var flag = true;
 
+            // Buttons, shadow appear by image mouseover.
             pic.addEventListener("mouseover", function showButtons() {
                 pic.style.boxShadow = "0 0 4px red";
                 like.style.visibility = "visible";
                 detail.style.visibility = "visible";
             }, false);
 
+            // shadow disappears by image mouseout.
             pic.addEventListener("mouseout", function picOut() {
                 pic.style.boxShadow = "none";
             }, false);
 
+            // Thumb up, thumb down appears by clicking likebutton with additional features.
             like.addEventListener("click", function setStatus() {
                 if (flag === true) {
                     flag = false;
@@ -53,36 +68,42 @@ function imageevent() {
                 }
             }, false);
 
+            // shadow appears by likebutton mouseover.
             like.addEventListener("mouseover", function hoverLike() {
                 like.style.boxShadow = "0px 0px 4px red";
             }, false);
 
+            // shadow disappears by likebutton mouseout.
             like.addEventListener("mouseout", function hoverOutLike() {
                 like.style.boxShadow = "none";
             }, false);
 
-            // open Modal
-            var openmod = document.getElementById("myModal");
+            // open modal
+            var openmod = document.getElementsByClassName("modal")[0];
 
+            // opens modal by clicking the detailbutton. Adds the chosen image to the modal.
             detail.addEventListener("click", function showModalpic() {
-                modalpic.style.visibility = "visible";
+                modalpic.style.width = "100%";
                 openmod.style.display = "block";
             }, false);
 
+            // shadow appears by detailbutton mouseover.
             detail.addEventListener("mouseover", function hoverDetail() {
                 detail.style.boxShadow = "0px 0px 4px red";
             }, false);
 
+            // shadow disappears by detailbutton mouseout.
             detail.addEventListener("mouseout", function hoverOutDetail() {
                 detail.style.boxShadow = "none";
             }, false);
 
-            // close Modal
+            // close modal
             var closemod = document.getElementsByClassName("close")[0];
 
+            // closes modal by clicking the closebutton. Removes the image from the modal.
             closemod.addEventListener("click", function closeModal() {
                 openmod.style.display = "none";
-                modalpic.style.visibility = "hidden";
+                modalpic.style.width = "0";
             }, false);
         })(i);
     }
