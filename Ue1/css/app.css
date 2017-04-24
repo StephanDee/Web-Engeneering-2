@@ -228,7 +228,7 @@ aside li {
     margin: auto;
     left: 0;
     right: 0;
-    width: 0;
+    max-width: 0;
 }
 
 /* A line to separate elements. Its a design-feature. */

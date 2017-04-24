@@ -83,7 +83,7 @@ function imageevent() {
 
             // opens modal by clicking the detailbutton. Adds the chosen image to the modal.
             detail.addEventListener("click", function showModalpic() {
-                modalpic.style.width = "100%";
+                modalpic.style.maxWidth = "100%";
                 openmod.style.display = "block";
             }, false);
 
@@ -103,7 +103,7 @@ function imageevent() {
             // closes modal by clicking the closebutton. Removes the image from the modal.
             closemod.addEventListener("click", function closeModal() {
                 openmod.style.display = "none";
-                modalpic.style.width = "0";
+                modalpic.style.maxWidth = "0";
             }, false);
         })(i);
     }
