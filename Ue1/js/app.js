@@ -12,6 +12,8 @@ function imageevent() {
     var pics = document.getElementsByClassName("gallery");
     var modalpics = document.getElementsByClassName("modalgallery");
     var likes = document.getElementsByClassName("likebutton");
+    var likesstatus = document.getElementsByClassName("likestatus");
+    var dislikesstatus = document.getElementsByClassName("dislikestatus");
     var details = document.getElementsByClassName("detailbutton");
 
     for (var i = 0; i < pics.length; i++) {
@@ -20,6 +22,8 @@ function imageevent() {
             var pic = pics[i];
             var modalpic = modalpics[i];
             var like = likes[i];
+            var likestatus = likesstatus[i];
+            var dislikestatus = dislikesstatus[i];
             var detail = details[i];
             var flag = true;
 
@@ -35,13 +39,17 @@ function imageevent() {
 
             like.addEventListener("click", function setStatus() {
                 if (flag === true) {
-                    like.style.backgroundColor = "firebrick";
-                    like.innerHTML = "not Like";
                     flag = false;
+                    like.style.backgroundColor = "firebrick";
+                    like.innerHTML = "Dislike";
+                    likestatus.style.width = "20px";
+                    dislikestatus.style.width = "0";
                 } else {
+                    flag = true;
                     like.style.backgroundColor = "dodgerblue";
                     like.innerHTML = "Like";
-                    flag = true;
+                    likestatus.style.width = "0";
+                    dislikestatus.style.width = "20px";
                 }
             }, false);
 
@@ -70,9 +78,9 @@ function imageevent() {
             }, false);
 
             // close Modal
-            var closemod = document.getElementsByClassName("close");
+            var closemod = document.getElementsByClassName("close")[0];
 
-            closemod[0].addEventListener("click", function closeModal() {
+            closemod.addEventListener("click", function closeModal() {
                 openmod.style.display = "none";
                 modalpic.style.visibility = "hidden";
             }, false);

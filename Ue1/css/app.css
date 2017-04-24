@@ -22,49 +22,42 @@ a:hover {
     text-shadow: red 0 0 4px;
 }
 
+body {
+    background-color: gray;
+}
+
 header {
     padding: 10px;
     background: black;
     box-shadow: red 0 0 4px;
     width: 100%;
     position: fixed;
-    /**
-    * The header is always infront of all other objects.
-    **/
-    z-index: 100;
+    z-index: 100; /* The header is always infront of all other objects. */
     left: 0;
     top: 0;
 }
 
 .headerlogo {
     float: left;
-    height: 50px;
-    width: 45px;
+    width: 30px;
     margin-left: 30px;
 }
 
 .headnav {
     float: left;
-    margin-top: 20px;
+    margin-top: 7px;
     margin-left: 20px;
 }
 
 .headnav li {
     display: inline;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 footer {
-    /**
-     * clear both, because floats of the other elements can make the footer jump into a higher position than these elements.
-     **/
+    /* clear both, because floats of the other elements enables the footer to jump into a higher position than these elements. */
     clear: both;
-
-    /**
-    * To put the Footericons to the right side.
-    **/
-    text-align: right;
-
+    text-align: right; /* To put the Footericons to the right side. */
     padding: 30px;
     background: black;
     bottom: 0;
@@ -99,15 +92,14 @@ nav li {
     margin-right: 10px;
 }
 
-nav {
-    margin-top: 20px;
-    margin-right: 30px;
-    float: right;
+main {
+    margin-top: 50px;
 }
 
 article {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     padding: 20px;
     margin-top: 10px;
 }
@@ -116,7 +108,7 @@ aside {
     padding: 30px 20px 20px 20px;
     width: 150px;
     color: white;
-    background-color: gray;
+    float: left;
 }
 
 aside li {
@@ -126,7 +118,9 @@ aside li {
 .flexbox {
     display: flex;
     flex-direction: row;
-    margin-top: 70px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    background-color: white;
 }
 
 .gallery {
@@ -146,14 +140,13 @@ aside li {
     color: #C0C0C0;
     box-shadow: red 0 0 30px;
 }
+
 #addimage-button:active {
     color: white;
     background-color: black;
 }
 
-/**
-* Javascript buttons part.
-**/
+/* Javascript buttons part. */
 .gallerybuttonbox {
     float: left;
 }
@@ -164,7 +157,6 @@ aside li {
     border: none;
     border-radius: 5px;
     width: 80px;
-    z-index: 1;
 }
 
 .likebutton {
@@ -175,10 +167,14 @@ aside li {
     background-color: beige;
 }
 
-/**
-* Javascript modal part.
-**/
-.modalgallery{
+.likestatus, .dislikestatus {
+    position: absolute;
+    margin: 2px 0 0 2px;
+    width: 0;
+}
+
+/* Javascript modal part. */
+.modalgallery {
     position: absolute;
     display: block;
     margin: auto;
@@ -232,12 +228,63 @@ aside li {
     padding-top: 2px;
 }
 
-/**
+/*
 * A line to separate elements.
 * Its a design-feature.
-**/
+*/
 .line {
     height: 1px;
     border-bottom: 1px solid #ddd;
     margin: 0 0 20px 0;
+}
+
+@media only screen and (max-width: 753px) {
+    aside {
+        text-align: center;
+        width: 100%;
+    }
+
+    .flexbox {
+        clear: both;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 294px) {
+    .headnav {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .headnav li {
+        display: inline;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: 274px) {
+    aside {
+        text-align: start;
+        width: 100%;
+    }
+
+    article {
+        padding: 0;
+        width: 100%;
+    }
+
+    .gallery {
+        padding: 2px;
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 201px) {
+        aside {
+            margin-top: 30px;
+            padding-left: 2px;
+            text-align: start;
+            width: 80%;
+        }
+    }
 }
