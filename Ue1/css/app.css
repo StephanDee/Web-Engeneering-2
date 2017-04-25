@@ -228,7 +228,7 @@ aside li {
 }
 
 /* responsive elements starting here. */
-@media only screen and (max-width: 753px) {
+@media only screen and (max-width: 770px) {
     .flexbox {
         /* clear both, because floats of the other elements
          * enables the footer to jump into a higher position

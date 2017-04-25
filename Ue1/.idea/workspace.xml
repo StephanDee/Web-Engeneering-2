@@ -4,7 +4,6 @@
     <list default="true" id="651e6eaa-ca39-4dce-b15d-15a1d17451a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/app.css" afterPath="$PROJECT_DIR$/css/app.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/app.js" afterPath="$PROJECT_DIR$/js/app.js" />
     </list>
     <ignored path="Ue1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +37,8 @@
       <file leaf-file-name="app.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/app.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+            <state relative-caret-position="290">
+              <caret line="230" column="37" selection-start-line="230" selection-start-column="37" selection-end-line="230" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -263,7 +262,7 @@
       <workItem from="1493053601646" duration="11344000" />
       <workItem from="1493065061997" duration="395000" />
       <workItem from="1493096475713" duration="7619000" />
-      <workItem from="1493116709750" duration="3085000" />
+      <workItem from="1493116709750" duration="3664000" />
     </task>
     <task id="LOCAL-00001" summary="branch-test">
       <created>1492242116405</created>
@@ -384,11 +383,18 @@
       <option name="project" value="LOCAL" />
       <updated>1493104174686</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="feature - detail-feature improved">
+      <created>1493119837366</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1493119837366</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114062000" />
+    <option name="totallyTimeSpent" value="114641000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -457,7 +463,8 @@
     <MESSAGE value="release 1.0.1 - new hotfix - modalgallery maxwidth sizing" />
     <MESSAGE value="new hotfix - cleaned code - DOMContentLoaded" />
     <MESSAGE value="feature - detail-feature changed" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature - detail-feature changed" />
+    <MESSAGE value="feature - detail-feature improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature - detail-feature improved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -843,8 +850,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/app.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+        <state relative-caret-position="290">
+          <caret line="230" column="37" selection-start-line="230" selection-start-column="37" selection-end-line="230" selection-end-column="37" />
           <folding />
         </state>
       </provider>
