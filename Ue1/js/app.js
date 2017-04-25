@@ -98,7 +98,6 @@ function imageevent() {
                 pic.style.left = "0";
                 pic.style.right = "0";
                 pic.style.maxWidth = "100%";
-                pic.style.maxHeight = "100%";
                 pic.style.zIndex = "102";
             }, false);
 
