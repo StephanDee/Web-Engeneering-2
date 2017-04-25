@@ -33,7 +33,6 @@ function imageevent() {
 
             // get additional elements.
             var pic = pics[i];
-            var modalpic = document.getElementsByClassName("modalgallery")[i];
             var like = document.getElementsByClassName("likebutton")[i];
             var likestatus = document.getElementsByClassName("likestatus")[i];
             var dislikestatus = document.getElementsByClassName("dislikestatus")[i];
@@ -82,16 +81,19 @@ function imageevent() {
             // open modal
             var openmod = document.getElementsByClassName("modal")[0];
             var modheader = document.getElementsByClassName("modalheader")[0];
+            var scrollup = document.body;
 
             // opens modal by clicking the detailbutton. Adds the chosen image to the modal.
-            detail.addEventListener("click", function showModalpic() {
+            detail.addEventListener("click", function showPicInModal() {
                 openmod.style.display = "block";
                 modheader.style.display = "block";
+                scrollup.scrollTop = "0";
 
+                // Puts the image in position and enlarge it.
                 pic.style.position = "absolute";
                 pic.style.marginRight = "auto";
                 pic.style.marginLeft = "auto";
-                pic.style.marginTop = "50px";
+                pic.style.marginTop = "70px";
                 pic.style.top = "0";
                 pic.style.left = "0";
                 pic.style.right = "0";
@@ -118,7 +120,9 @@ function imageevent() {
                 openmod.style.display = "none";
                 modheader.style.display = "none";
 
+                // Puts the image to default position.
                 pic.style.position = "static";
+                pic.style.marginTop = "auto";
                 pic.style.maxWidth = "236px";
                 pic.style.zIndex = "0";
             }, false);

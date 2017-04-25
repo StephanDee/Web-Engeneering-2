@@ -4,12 +4,8 @@
     font-family: "Verdana", serif; /* Set the font for all texts. */
 }
 
-h1 + img { /* All h1 headlines with a following image. */
-    margin-top: 20px;
-}
-
-h1 + ul { /* All h1 headlines with a following enumeration(lists). */
-    margin-top: 20px;
+h1 { /* All h1 headlines with a following image. */
+    margin-bottom: 20px;
 }
 
 /* Link tag */
@@ -186,7 +182,7 @@ aside li {
 }
 
 /* Modal content area */
-.modalcontent {
+.modalcontent { /* Elements in the background can't be touched. */
     position: fixed;
     background-color: white;
     height: 100%;
@@ -260,6 +256,10 @@ aside li {
 }
 
 @media only screen and (max-width: 274px) {
+    h1 {
+        font-size: 14pt;
+    }
+
     aside {
         padding-left: 2px;
         text-align: start;
@@ -274,11 +274,11 @@ aside li {
         padding: 2px;
         width: 97%;
     }
+}
 
-    @media only screen and (max-width: 201px) {
-        aside {
-            margin-top: 30px;
-            padding-left: 2px;
-        }
+@media only screen and (max-width: 201px) {
+    aside {
+        margin-top: 30px;
+        padding-left: 2px;
     }
 }
