@@ -125,7 +125,7 @@ aside li {
 
 /* The class of the article images. */
 .gallery {
-    width: 236px;
+    max-width: 236px;
 }
 
 #addimagebutton { /* '#' infront of the ids connects the features to its ids. */
@@ -178,7 +178,7 @@ aside li {
 /* Modal with Javascript eventhandling. */
 .modal { /* Modal background overlay */
     display: none; /* Hidden by default */
-    position: fixed;
+    position: absolute;
     z-index: 101; /* Sets the Modal on top of all other elements. */
     left: 0;
     top: 0;
@@ -200,6 +200,7 @@ aside li {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-right: 30px;
 }
 
 /* Button closing events */
@@ -212,23 +213,15 @@ aside li {
 
 /* Header of the modal */
 .modalheader {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 103;
     padding: 2px 16px;
     background-color: black;
     color: white;
-}
-
-/* Body of the modal */
-.modalbody {
-    padding-top: 2px;
-}
-
-.modalgallery { /* The Images in the modal. */
-    position: absolute;
-    display: block; /* If it was set to none before, it changes from hidden to visible. */
-    margin: auto;
-    left: 0;
-    right: 0;
-    max-width: 0;
+    width: 100%;
 }
 
 /* A line to separate elements. Its a design-feature. */

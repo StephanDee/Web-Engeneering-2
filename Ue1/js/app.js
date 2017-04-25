@@ -16,7 +16,7 @@ addFunctionOnWindowDOMContentLoaded(imageevent);
  * Contains all imageevent listeners of the articles.
  */
 function imageevent() {
-    
+
     // Get image elements.
     var pics = document.getElementsByClassName("gallery");
 
@@ -81,11 +81,23 @@ function imageevent() {
 
             // open modal
             var openmod = document.getElementsByClassName("modal")[0];
+            var modheader = document.getElementsByClassName("modalheader")[0];
 
             // opens modal by clicking the detailbutton. Adds the chosen image to the modal.
             detail.addEventListener("click", function showModalpic() {
-                modalpic.style.maxWidth = "100%";
                 openmod.style.display = "block";
+                modheader.style.display = "block";
+
+                pic.style.position = "absolute";
+                pic.style.marginRight = "auto";
+                pic.style.marginLeft = "auto";
+                pic.style.marginTop = "50px";
+                pic.style.top = "0";
+                pic.style.left = "0";
+                pic.style.right = "0";
+                pic.style.maxWidth = "100%";
+                pic.style.maxHeight = "100%";
+                pic.style.zIndex = "102";
             }, false);
 
             // shadow appears by detailbutton mouseover.
@@ -104,7 +116,11 @@ function imageevent() {
             // closes modal by clicking the closebutton. Removes the image from the modal.
             closemod.addEventListener("click", function closeModal() {
                 openmod.style.display = "none";
-                modalpic.style.maxWidth = "0";
+                modheader.style.display = "none";
+
+                pic.style.position = "static";
+                pic.style.maxWidth = "236px";
+                pic.style.zIndex = "0";
             }, false);
         })(i);
     }
