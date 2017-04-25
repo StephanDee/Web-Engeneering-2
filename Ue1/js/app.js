@@ -1,25 +1,24 @@
-// Adds additional window.onload events.
-var addFunctionOnWindowLoad = function (callback) {
+// Register, load, parse events/eventlistener.
+var addFunctionOnWindowDOMContentLoaded = function (callback) {
     if (window.addEventListener) {
-        window.addEventListener('load', callback, false);
+        // DOMContentLoaded: Will load Javascript after DOM is fully loaded and parsed.
+        window.addEventListener('DOMContentLoaded', callback, false);
     } else {
+        // Register Eventhandlers
         window.attachEvent('onload', callback);
     }
 };
 
 // Add functions, will be loaded ordered from top to bottom.
-addFunctionOnWindowLoad(imageevent);
+addFunctionOnWindowDOMContentLoaded(imageevent);
 
 /**
  * Contains all imageevent listeners of the articles.
  */
 function imageevent() {
+    
+    // Get image elements.
     var pics = document.getElementsByClassName("gallery");
-    var modalpics = document.getElementsByClassName("modalgallery");
-    var likes = document.getElementsByClassName("likebutton");
-    var likesstatus = document.getElementsByClassName("likestatus");
-    var dislikesstatus = document.getElementsByClassName("dislikestatus");
-    var details = document.getElementsByClassName("detailbutton");
 
     for (var i = 0; i < pics.length; i++) {
 
@@ -31,12 +30,14 @@ function imageevent() {
          * @param i The classnumber of the activated element.
          */
             function (i) {
+
+            // get additional elements.
             var pic = pics[i];
-            var modalpic = modalpics[i];
-            var like = likes[i];
-            var likestatus = likesstatus[i];
-            var dislikestatus = dislikesstatus[i];
-            var detail = details[i];
+            var modalpic = document.getElementsByClassName("modalgallery")[i];
+            var like = document.getElementsByClassName("likebutton")[i];
+            var likestatus = document.getElementsByClassName("likestatus")[i];
+            var dislikestatus = document.getElementsByClassName("dislikestatus")[i];
+            var detail = document.getElementsByClassName("detailbutton")[i];
             var flag = true;
 
             // Buttons, shadow appear by image mouseover.
