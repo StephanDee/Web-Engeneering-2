@@ -1,0 +1,34 @@
+https://docs.npmjs.com/files/package.json
+
+name
+project-xy
+
+version
+1.0.0
+
+description
+bla
+
+keywords
+predator we2
+
+homepage
+none
+
+bugs
+{ "url" : "https://github.com/StephanDee/Web-Engeneering-2/issues"
+, "email" : "s58416@beuth-hochschule.de"
+}
+
+license
+{ "license" : "BSD-3-Clause" }
+
+people fields: author, contributors
+{ "name" : "Stephan Dünkel"
+, "email" : "s58416@beuth-hochschule.de"
+}
+
+"repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/StephanDee/Web-Engeneering-2.git"
+  }

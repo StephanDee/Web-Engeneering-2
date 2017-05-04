@@ -2,8 +2,11 @@
   "dependencies": {
     "express": "^4.15.2"
   },
-  "name": "Ue2",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "name": "Uebung2",
+  "version": "1.0.1",
+  "main": "app.js",
+  "license": "BSD-3-Clause",
+  "description": "This Project targets to call URLs to deliver static files from subfolders.",
+  "repository": "https://github.com/StephanDee/Web-Engeneering-2.git",
+  "author": "Nesrin, Julius, Stephan"
 }
