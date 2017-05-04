@@ -1,0 +1,284 @@
+* { /* Sets features for all elements. */
+    margin: 0; /* The distance outside of all elements. */
+    padding: 0; /* The distance inside of all elements. */
+    font-family: "Verdana", serif; /* Set the font for all texts. */
+}
+
+h1 { /* All h1 headlines with a following image. */
+    margin-bottom: 20px;
+}
+
+/* Link tag */
+a {
+    text-decoration: none; /* removes default settings. */
+    color: white;
+}
+
+a:hover { /* Sets a hovering effect for links. */
+    color: #C0C0C0;
+    text-shadow: red 0 0 4px;
+}
+
+body {
+    background-color: gray;
+}
+
+header {
+    padding: 10px;
+    background: black;
+    box-shadow: red 0 0 4px; /* A shadow behind the header. */
+    width: 100%;
+    position: fixed; /* The header is fixed on top of the page. */
+    z-index: 100; /* The header is always infront of all other objects. */
+    left: 0; /* The distance to the left. */
+    top: 0; /* The distance to the top. */
+}
+
+.headerlogo { /* '.' infront of the classname connects the features to its class. */
+    float: left; /* Elements are floating to the left. */
+    width: 30px;
+    margin-left: 30px;
+}
+
+/* Navigationbar in the header. */
+nav {
+    float: left;
+    margin-top: 7px;
+    margin-left: 20px;
+}
+
+/* Listelements of the Navigationbar. */
+nav li {
+    display: inline; /* Displays all elements in a line. */
+    margin-left: 10px;
+}
+
+footer {
+    /* clear both, because floats of the other elements
+     * enables the footer to jump into a higher position
+     * than these elements. */
+    clear: both;
+    text-align: right; /* To put the Footericons to the right side. */
+    padding: 30px;
+    background: black;
+    bottom: 0;
+}
+
+footer p {
+    color: white;
+    font-size: 10pt;
+    display: inline;
+    text-align: center; /* Sets the text to center. */
+}
+
+footer a {
+    font-size: 10pt;
+}
+
+.footer-text {
+    text-align: center;
+    margin: 0 0 20px 0; /* top, right, bottom, left. */
+}
+
+.footericons {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px; /* Sets the edges with a radius. */
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+main {
+    margin-top: 50px;
+}
+
+article {
+    display: flex; /* Displays elements in a flexbox layout. */
+    flex-direction: column; /* All items sorted in a column */
+    justify-content: flex-start; /* Elements are sorted from the left side. */
+    padding: 20px;
+    margin-top: 10px;
+}
+
+aside {
+    padding: 30px 20px 20px 20px;
+    width: 150px;
+    color: white;
+    float: left;
+}
+
+aside li {
+    list-style: none; /* Removes points infront of listelements. */
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: row; /* All items sorted in a row. */
+    justify-content: flex-start;
+    flex-wrap: wrap; /* Responsive floating. */
+    background-color: white;
+}
+
+/* The class of the article images. */
+.gallery {
+    max-width: 236px;
+}
+
+#addimagebutton { /* '#' infront of the ids connects the features to its ids. */
+    margin-top: 20px;
+    padding: 5px;
+    border: none; /* Removes default border. */
+    border-radius: 8px;
+    color: white;
+    background-color: blue;
+}
+
+#addimagebutton:hover { /* Effect by hovering the button. */
+    color: #C0C0C0;
+    box-shadow: red 0 0 30px;
+}
+
+#addimagebutton:active { /* Effect by clicking the button. */
+    color: white;
+    background-color: black;
+}
+
+/* Box for gallery buttons. */
+.gallerybuttonbox {
+    float: left;
+}
+
+/* Buttons with Javascript events. */
+.likebutton, .detailbutton {
+    visibility: hidden;
+    margin: 5px 0 5px 0;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+}
+
+.likebutton {
+    background-color: dodgerblue;
+}
+
+.detailbutton {
+    background-color: beige;
+}
+
+.likestatus, .dislikestatus {
+    position: absolute; /* The absolute position inside the box. */
+    margin: 2px 0 0 2px;
+    width: 0; /* Default width, will expand by hovering its image. */
+}
+
+/* Modal with Javascript eventhandling. */
+.modal { /* Modal background overlay */
+    display: none; /* Hidden by default */
+    position: absolute;
+    z-index: 101; /* Sets the Modal on top of all other elements. */
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+/* Modal content area */
+.modalcontent { /* Elements in the background can't be touched. */
+    position: fixed;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+/* Button to close modal */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+/* Button closing events */
+.close:hover,
+.close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer; /* Sets the mousecursor to a normal pointerlook. */
+}
+
+/* Header of the modal */
+.modalheader {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 103;
+    padding: 2px 16px;
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+
+/* A line to separate elements. Its a design-feature. */
+.line {
+    height: 1px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 20px 0;
+}
+
+/* responsive elements starting here. */
+@media only screen and (max-width: 770px) {
+    .flexbox {
+        /* clear both, because floats of the other elements
+         * enables the footer to jump into a higher position
+         * than these elements. */
+        clear: both;
+        justify-content: center; /* Sets flexbox elements center. */
+    }
+}
+
+@media only screen and (max-width: 294px) {
+    * {
+        overflow-x: hidden; /* scroll to x-axis are hidden. */
+    }
+
+    nav {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    nav li {
+        display: inline;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: 274px) {
+    h1 {
+        font-size: 14pt;
+    }
+
+    aside {
+        padding-left: 2px;
+        text-align: start;
+    }
+
+    article {
+        padding: 0;
+        width: 100%;
+    }
+
+    .gallery {
+        padding: 2px;
+        width: 97%;
+    }
+}
+
+@media only screen and (max-width: 201px) {
+    aside {
+        margin-top: 30px;
+        padding-left: 2px;
+    }
+}
