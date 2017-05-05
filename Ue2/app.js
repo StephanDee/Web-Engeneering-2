@@ -9,5 +9,5 @@ app.use('/staticfiles', express.static(path.join(__dirname, 'public')));
 
 // start server
 var server = app.listen(3000, function () {
-console.log('App is ready and listening at http://localhost:3000/staticfiles');
+console.log('App is ready and listening at http://localhost:3000/staticfiles/index.html');
 });
