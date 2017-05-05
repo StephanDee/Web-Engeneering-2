@@ -3,10 +3,18 @@
     "express": "^4.15.2"
   },
   "name": "Uebung2",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "main": "app.js",
+  "bugs": {
+    "url": "https://github.com/StephanDee/Web-Engeneering-2/issues"
+  },
   "license": "BSD-3-Clause",
-  "description": "This Project targets to call URLs to deliver static files from subfolders.",
+  "description": "This Project targets to call URLs to deliver staticfiles from subfolders.",
   "repository": "https://github.com/StephanDee/Web-Engeneering-2.git",
-  "author": "Nesrin, Julius, Stephan"
+  "author": "Predator",
+  "contributors": [
+    "Nesrin Durkaya <sXXXXX@beuth-hochschule.de>",
+    "Julius Brett <sXXXXX@beuth-hochschule.de>",
+    "Stephan Duenkel <s58416@beuth-hochschule.de>"
+  ]
 }
