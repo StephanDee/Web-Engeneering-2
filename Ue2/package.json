@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "express": "^4.15.2"
+    "dateformat": "^2.0.0",
+    "express": "^4.15.2",
+    "fs": "^0.0.1-security"
   },
   "name": "Uebung2",
   "version": "1.0.0",
@@ -9,12 +11,12 @@
     "url": "https://github.com/StephanDee/Web-Engeneering-2/issues"
   },
   "license": "BSD-3-Clause",
-  "description": "This Project targets to call URLs to deliver staticfiles from subfolders.",
+  "description": "This Project targets to call URLs to deliver staticfiles.",
   "repository": "https://github.com/StephanDee/Web-Engeneering-2.git",
   "author": "Predator",
   "contributors": [
-    "Nesrin Durkaya <sXXXXX@beuth-hochschule.de>",
-    "Julius Brett <sXXXXX@beuth-hochschule.de>",
+    "Nesrin Durkaya <s61251@beuth-hochschule.de>",
+    "Julius Brett <s60591@beuth-hochschule.de>",
     "Stephan Duenkel <s58416@beuth-hochschule.de>"
   ]
 }
