@@ -1,3 +1,9 @@
+/**
+ * Übung 2
+ *
+ * @author Nesrin, Julius, Stephan
+ * @license BSD-3-Clause
+ */
 "use strict";
 var express = require('express');
 var path = require('path');
