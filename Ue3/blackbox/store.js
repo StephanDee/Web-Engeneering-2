@@ -3,7 +3,7 @@
  *  primary methods exposed as public:
  *  - select (String type, Number id) [@returns undefined, one element or array of elements]
  *  - insert (String type, Object element) [@returns ID of new element]
- *  - replace (String type, Number id, Object element) [@returns this (the store object)]
+ *  - replaces (String type, Number id, Object element) [@returns this (the store object)]
  *  - remove (String type, Number id) [@returns this (the store object)]
  *
  *  All methods make deep copies of the data objects (and remove functions)
@@ -19,9 +19,9 @@
 "use strict";
 
 // a closure for ID generation
-var globalCounter = (function() {
+var globalCounter = (function () {
     var i = 100;
-    return function() {
+    return function () {
         return ++i;
     }
 
@@ -29,25 +29,72 @@ var globalCounter = (function() {
 
 // some default store content
 var tweets = [
-    {   id: globalCounter(),
+    {
+        id: globalCounter(),
         message: "Hello world tweet",
         creator: {
             href: "http://localhost:3000/users/103"
-        }
+        },
+        places: {id: 4}
     },
-    {   id: globalCounter(),
+    {
+        id: globalCounter(),
         message: "Another nice tweet",
         creator: {
             href: "http://localhost:3000/users/104"
-        }
+        },
+        places: {id: 2}
+    }, {
+        id: globalCounter(),
+        message: "Boring..",
+        creator: {
+            href: "http://localhost:3000/users/103"
+        },
+        places: {id: 4}
+    },
+    {
+        id: globalCounter(),
+        message: "Awesome Tweet",
+        creator: {
+            href: "http://localhost:3000/users/104"
+        },
+        places: {id: 3}
+    },
+    {
+        id: globalCounter(),
+        message: "Another nice tweet",
+        creator: {
+            href: "http://localhost:3000/users/104"
+        },
+        places: {id: 1}
+    }
+];
+var places = [
+    {
+        id: 1,
+        name: "LA"
+    },
+    {
+        id: 2,
+        name: "Miami"
+    },
+    {
+        id: 3,
+        name: "California"
+    },
+    {
+        id: 4,
+        name: "Texas"
     }
 ];
 var users = [
-    {   id: globalCounter(),
+    {
+        id: globalCounter(),
         firstname: "Super",
         lastname: "Woman"
     },
-    {   id: globalCounter(),
+    {
+        id: globalCounter(),
         firstname: "Jane",
         lastname: "Doe"
     }
@@ -57,6 +104,7 @@ var users = [
 var memory = {};
 memory.tweets = tweets;
 memory.users = users;
+memory.places = places;
 
 //** private helper functions */
 /**
@@ -64,7 +112,7 @@ memory.users = users;
  * @param element
  * @throws Error if not an object
  */
-var checkElement = function(element) {
+var checkElement = function (element) {
     if (typeof(element) !== 'object') {
         throw new Error('Element is not an object to store', element);
     }
@@ -76,7 +124,7 @@ var checkElement = function(element) {
  * @param object to copy
  * @returns {object}
  */
-var getDeepObjectCopy = function(object) {
+var getDeepObjectCopy = function (object) {
     if (!object) return undefined;
     return JSON.parse(JSON.stringify(object)); // quick&dirty solution to deep copy a data object (without functions!)
 };
@@ -90,15 +138,15 @@ var store = {
      * @param {string or number} id - (optional) ID of element to select only one
      * @returns {[],{}, undefined} - undefined if nothing found, array of objects or one object only if ID was given
      */
-    select: function(type, id) {
+    select: function (type, id) {
         var list = memory[type];
         id = parseInt(id);
-        list =  (list == undefined || list.length === 0)? undefined: list; // prevent []
+        list = (list == undefined || list.length === 0) ? undefined : list; // prevent []
         if (list != undefined && list.length > 0 && !isNaN(id)) {
-            list = list.filter(function(element) {
+            list = list.filter(function (element) {
                 return element.id === id;
             });
-            list =  (list.length === 0)? undefined: list[0]; // only return the 1 found element; prevent empty []
+            list = (list.length === 0) ? undefined : list[0]; // only return the 1 found element; prevent empty []
         }
         return getDeepObjectCopy(list); // may contain undefined, object or array;
     },
@@ -110,10 +158,10 @@ var store = {
      * @param {object} element (without an .id property)
      * @returns {Number} the new id of the inserted element as a Number
      */
-    insert: function(type, element) {
+    insert: function (type, element) {
         checkElement(element);
         if (element.id !== undefined) {
-            throw new Error("element already has an .id value, but should not on insert!",e);
+            throw new Error("element already has an .id value, but should not on insert!", e);
         }
         element.id = globalCounter();
         memory[type] = memory[type] || [];
@@ -122,7 +170,7 @@ var store = {
     },
 
 
-    /** Replaces an existing element. id and newElement.id must be identical
+    /** Replacess an existing element. id and newElement.id must be identical
      *
      * @param {string} type
      * @param {string} id
@@ -130,23 +178,23 @@ var store = {
      * @throws Error in case element cannot be found or id and .id are not the same
      * @returns {this} the store object itself for pipelining
      */
-    replace: function(type, id, newElement) {
+    replaces: function (type, id, newElement) {
         var index = null;
         checkElement(newElement);
         var found = store.select(type, id);
         if (found === undefined) {
-            throw new Error('element with id '+id+' does not exist in store type '+type, newElement);
+            throw new Error('element with id ' + id + ' does not exist in store type ' + type, newElement);
         }
         id = parseInt(id);
         // now get the index of the element
-        memory[type].forEach(function(item, i) {
+        memory[type].forEach(function (item, i) {
             if (item.id === id) {
                 index = i;
             }
         });
         // case of index = null cannot happen as it was found before..
         if (!newElement.id == id) {
-            throw new Error("element.id and given id are not identical! Cannot replace");
+            throw new Error("element.id and given id are not identical! Cannot replaces");
         }
         newElement.id = id; // for type safety
         memory[type][index] = getDeepObjectCopy(newElement);
@@ -161,15 +209,15 @@ var store = {
      * @throws Error if element cannot be found in store
      * @returns {this} store object itself for pipelining
      */
-    remove: function(type, id) {
+    remove: function (type, id) {
         var index = null;
         var found = store.select(type, id);
         if (found === undefined) {
-            throw new Error('element with id '+id+' does not exist in store type '+type);
+            throw new Error('element with id ' + id + ' does not exist in store type ' + type);
         }
         id = parseInt(id);
         // now get the index of the element
-        memory[type].forEach(function(item, i) {
+        memory[type].forEach(function (item, i) {
             if (item.id === id) {
                 index = i;
             }

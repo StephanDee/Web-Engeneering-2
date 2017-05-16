@@ -1,5 +1,5 @@
 /**
- * Übung 2
+ * Exercise 2
  *
  * @author Nessi, Julius, Stephan
  * @license BSD-3-Clause
@@ -8,10 +8,10 @@
 var express = require('express');
 var path = require('path');
 
-// $ npm install dateformat
+// $ yarn add dateformat
 var dateFormat = require('dateformat');
 
-// Get methods to read files - $ npm install fs
+// Get methods to read files - $ yarn add fs
 var fs = require('fs');
 
 var app = express();
@@ -59,6 +59,7 @@ app.use('/file.txt',
             if (err) {
                 // If file not found
                 return console.log(err);
+                res.status(503).end();
             } else {
                 res.header('Content-Type', 'text/plain');
                 res.send(file + "\n\n" + TimeInNs(end) + " ns");
