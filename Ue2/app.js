@@ -1,30 +1,20 @@
 /**
- * Übung 2
+ * Exercise 2
  *
- * @author Nesrin, Julius, Stephan
+ * @author Nessi, Julius, Stephan
  * @license BSD-3-Clause
  */
 "use strict";
 var express = require('express');
 var path = require('path');
 
-// $ npm install dateformat
+// $ yarn add dateformat
 var dateFormat = require('dateformat');
 
-// Get methods to read files - $ npm install fs
+// Get methods to read files - $ yarn add fs
 var fs = require('fs');
 
 var app = express();
-
-// add and configure Route / - Task 1
-app.get('/', function (req, res) {
-    res.send('<!DOCTYPE html>' +
-        '<html lang="en">' +
-        '<head><meta charset="utf-8"></head>' +
-        '<body><h1>Hello World!</h1></body>' +
-        '</html>'
-    );
-});
 
 // add route to static files - Task 3
 app.use('/staticfiles', express.static(path.join(__dirname, 'public')));
@@ -34,8 +24,8 @@ app.use('/time',
     /**
      * Shows the current Systemtime.
      *
-     * @param req request
-     * @param res response
+     * @param req http request
+     * @param res http response
      */
     function currentTime(req, res) {
         res.header('Content-Type', 'text/plain');
@@ -48,13 +38,9 @@ app.use('/time',
  *
  * @returns time in nanoseconds
  */
-function TimeInNs() {
-    // process is always available to Node.js applications without using require()
-    var start = process.hrtime();
-    var end = process.hrtime(start);
-
+function TimeInNs(time) {
     // converts hrtime to ns
-    var result = end[1] / 1000;
+    var result = time[1] / 1000;
     return result;
 }
 
@@ -62,20 +48,34 @@ app.use('/file.txt',
     /**
      * Read file asynchronously (non-blocking) and sends back the processing time.
      *
-     * @param req request
-     * @param res response
+     * @param req http request
+     * @param res http response
      */
     function (req, res) {
+        // process is always available to Node.js applications without using require()
+        var start = process.hrtime();
         fs.readFile('file.txt', 'utf8', function (err, file) {
+            var end = process.hrtime(start);
             if (err) {
                 // If file not found
                 return console.log(err);
+                res.status(503).end();
             } else {
                 res.header('Content-Type', 'text/plain');
-                res.send(file + "\n\n" + TimeInNs() + " ns");
+                res.send(file + "\n\n" + TimeInNs(end) + " ns");
             }
         });
     });
+
+// add and configure Route / - Task 1
+app.get('/*', function (req, res) {
+    res.send('<!DOCTYPE html>' +
+        '<html lang="en">' +
+        '<head><meta charset="utf-8"></head>' +
+        '<body><h1>Hello World!</h1></body>' +
+        '</html>'
+    );
+});
 
 // start server
 var server = app.listen(3000, function () {
