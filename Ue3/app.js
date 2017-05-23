@@ -4,13 +4,7 @@
  * On each restart the db will be reset (it is only in memory).
  * Best start with GET http://localhost:3000/tweets to see the JSON for it
  *
- * TODO: Start the server and play a little with Postman
- * TODO: First read and understand the code
- * TODO: Look at the Routes-section (starting line 68) and start there to add your code
- *
- * @author Johannes Konert
- * @licence CC BY-SA 4.0
- *
+ * @contributor Nessi Durkaya, Stephan Dünkel, Julius
  */
 "use strict";  // tell node.js to be more "strict" in JavaScript parsing (e.g. not allow variables without var before)
 
@@ -50,7 +44,8 @@ app.use(function (req, res, next) {
 
 // request type application/json check
 app.use(function (req, res, next) {
-    if (['POST', 'PUT'].indexOf(req.method) > -1 && !( /application\/json/.test(req.get('Content-Type')) )) {
+    if (['POST', 'PUT'].indexOf(req.method) > -1 &&
+        !( /application\/json/.test(req.get('Content-Type')) )) {
         // send error code 415: unsupported media type
         res.status(415).send('wrong Content-Type');  // user has SEND the wrong type
     } else if (!req.accepts('json')) {
@@ -67,15 +62,18 @@ app.use(function (req, res, next) {
 // Routes ***************************************
 
 app.get('/tweets', function (req, res, next) {
-    res.json(store.select('tweets'));
+    var tweetObject = store.select('tweets');
+    for (var i = 0; i < tweetObject.length; i++) {
+        var id = tweetObject[i].id;
+        tweetObject[i].places = {href: req.get('host') + "/tweets/" + id + "/places"};
+    }
+    res.json(tweetObject);
 });
 
 app.post('/tweets', function (req, res, next) {
     var id = store.insert('tweets', req.body);
-    // set code 201 "created" and send the item back
     res.status(201).json(store.select('tweets', id));
 });
-
 
 app.get('/tweets/:id', function (req, res, next) {
     res.json(store.select('tweets', req.params.id));
@@ -87,46 +85,64 @@ app.delete('/tweets/:id', function (req, res, next) {
 });
 
 app.put('/tweets/:id', function (req, res, next) {
-    store.replace('tweets', req.params.id, req.body);
+    store.replaces('tweets', req.params.id, req.body);
     res.status(200).end();
 });
 
-
-// TODO: add your routes, error handling etc.
-
-function findTweet(id) {
-    var tweets = store.select('tweets');
-    for (var i = 0; i < tweets.length; i++) {
-        if (tweets[i].places.id == id) {
-            var tweetArray = tweets[i];
-        }
-        return tweetArray;
-    }
-    return null;
-}
+// new Routes for places ************************
 
 // Task 1.a
 app.get('/places', function (req, res, next) {
+    var outerObject = {href: req.get('host') + "/places"};
     var placeObject = store.select('places');
     for (var i = 0; i < placeObject.length; i++) {
-        var id = placeObject[i].id;
-        var tweetArray = findTweet(id);
-        if (tweetArray != null) {
-            for (var i = 0; i < tweetArray.length; i++) {
-                placeObject[i].tweets = {
-                    message: tweetArray[i].message,
-                    href: req.get('host') + "/tweets/" + tweetArray[i].id
-                };
-            }
-        } else  placeObject[i].tweets = {Error: "Keine Tweets vorhanden :)"};
+        placeObject[i].href = req.get('host') + "/places/" + placeObject[i].id;
+        placeObject[i].tweets = {href: req.get('host') + "/places/" + placeObject[i].id + "/tweets"};
     }
-    res.json(placeObject);
+    outerObject.items = placeObject;
+    res.json(outerObject);
+});
+// Task 1.b
+
+//Extra Task 3.2
+/**
+ * Method to find tweets.
+ * 
+ * @param place id to find the tweets
+ * @returns {Array} with all the Tweets that belong to the place
+ */
+function findTweet(id) {
+    var tweets = store.select('tweets');
+    var tweetArray = [];
+    for (var i = 0; i < tweets.length; i++) {
+        if (tweets[i].places.id == id) {
+            tweetArray = tweets[i];
+        }
+    }
+    return tweetArray;
+}
+app.get('/places/:expand=tweets', function (req, res, next) {
+    var outerObject = {href: req.get('host') + "/places/?expand=tweets"};
+    var placeObject = store.select('places');
+    var items = [];
+    for (var x = 0; x < placeObject.length; x++) {
+        var id = placeObject[x].id;
+        items = findTweet(id);
+        if (items != null) {
+            placeObject[x] = {
+                id: id, name: placeObject[x].name, href: req.get('host') + "/places/" + id + "/tweets"
+            };
+            placeObject[x].tweets = items;
+        }
+    }
+    outerObject.items = placeObject;
+    res.json(outerObject);
 });
 
-// Task 1.b
 app.get('/places/:id', function (req, res, next) {
     var id = req.params.id;
     var placeObject = store.select('places', id);
+    placeObject.href = req.get('host') + "/places/" + placeObject.id;
     placeObject.tweets = {href: req.get('host') + "/places/" + id + "/tweets"};
     res.json(placeObject);
 });
@@ -135,6 +151,7 @@ app.post('/places', function (req, res, next) {
     var id = store.insert('places', req.body);
     var Object = store.select('places', id);
     Object.tweets = {href: req.get('host') + "/places/" + id + "/tweets"};
+    Object.href = req.get('host') + "/places/" + id;
     res.status(201).json(Object);
 });
 
@@ -148,9 +165,9 @@ app.put('/places/:id', function (req, res, next) {
     res.status(200).end();
 });
 
-// CatchAll for the other requests (unfound routes/resources) ********
 
 // catch 404 and forward to error handler
+
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -186,13 +203,12 @@ app.use(function (err, req, res, next) {
     });
 });
 
-
 // Start server ****************************
 app.listen(3000, function (err) {
     if (err !== undefined) {
         console.log('Error on startup, ', err);
     }
     else {
-        console.log('Listening on port 3000 \'http://localhost:3000/\'');
+        console.log('Listening on port 3000');
     }
 });
