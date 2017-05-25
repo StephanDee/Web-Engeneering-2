@@ -80,9 +80,9 @@ pins.route('/:id')
         next();
     })
     .put(function(req, res, next) {
-        // TODO implement: almost done: res.status(200).end();?!
+        // TODO implement: almost done: res.status(200).end();?!: req.body austauschen... wie post oben
         var id = req.param.id;
-        res.local.items = store.replace('pins', id, req.body);
+        res.locals.items = store.replace('pins', id, req.body);
         res.locals.processed = true;
         next();
     })
