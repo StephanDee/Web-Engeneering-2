@@ -7,7 +7,7 @@
  * NODE_ENV=development
  * DEBUG=we2:*
  *
- * @contributors Nessi Durkaya, Stephan Dünkel, Julius Brett
+ * @author Johannes Konert
  * @licence CC BY-SA 4.0
  *
  */

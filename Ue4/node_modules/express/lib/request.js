@@ -25,17 +25,11 @@ var proxyaddr = require('proxy-addr');
 
 /**
  * Request prototype.
- * @public
  */
 
-var req = Object.create(http.IncomingMessage.prototype)
-
-/**
- * Module exports.
- * @public
- */
-
-module.exports = req
+var req = exports = module.exports = {
+  __proto__: http.IncomingMessage.prototype
+};
 
 /**
  * Return request header.
@@ -63,14 +57,6 @@ module.exports = req
 
 req.get =
 req.header = function header(name) {
-  if (!name) {
-    throw new TypeError('name argument is required to req.get');
-  }
-
-  if (typeof name !== 'string') {
-    throw new TypeError('name must be a string to req.get');
-  }
-
   var lc = name.toLowerCase();
 
   switch (lc) {
@@ -185,34 +171,29 @@ req.acceptsLanguage = deprecate.function(req.acceptsLanguages,
   'req.acceptsLanguage: Use acceptsLanguages instead');
 
 /**
- * Parse Range header field, capping to the given `size`.
+ * Parse Range header field,
+ * capping to the given `size`.
  *
- * Unspecified ranges such as "0-" require knowledge of your resource length. In
- * the case of a byte range this is of course the total number of bytes. If the
- * Range header field is not given `undefined` is returned, `-1` when unsatisfiable,
- * and `-2` when syntactically invalid.
+ * Unspecified ranges such as "0-" require
+ * knowledge of your resource length. In
+ * the case of a byte range this is of course
+ * the total number of bytes. If the Range
+ * header field is not given `null` is returned,
+ * `-1` when unsatisfiable, `-2` when syntactically invalid.
  *
- * When ranges are returned, the array has a "type" property which is the type of
- * range that is required (most commonly, "bytes"). Each array element is an object
- * with a "start" and "end" property for the portion of the range.
+ * NOTE: remember that ranges are inclusive, so
+ * for example "Range: users=0-3" should respond
+ * with 4 users when available, not 3.
  *
- * The "combine" option can be set to `true` and overlapping & adjacent ranges
- * will be combined into a single range.
- *
- * NOTE: remember that ranges are inclusive, so for example "Range: users=0-3"
- * should respond with 4 users when available, not 3.
- *
- * @param {number} size
- * @param {object} [options]
- * @param {boolean} [options.combine=false]
- * @return {number|array}
+ * @param {Number} size
+ * @return {Array}
  * @public
  */
 
-req.range = function range(size, options) {
+req.range = function(size){
   var range = this.get('Range');
   if (!range) return;
-  return parseRange(size, range, options);
+  return parseRange(size, range);
 };
 
 /**
@@ -322,7 +303,7 @@ defineGetter(req, 'protocol', function protocol(){
 /**
  * Short-hand for:
  *
- *    req.protocol === 'https'
+ *    req.protocol == 'https'
  *
  * @return {Boolean}
  * @public
@@ -362,12 +343,7 @@ defineGetter(req, 'ip', function ip(){
 defineGetter(req, 'ips', function ips() {
   var trust = this.app.get('trust proxy fn');
   var addrs = proxyaddr.all(this, trust);
-
-  // reverse the order (to farthest -> closest)
-  // and remove socket address
-  addrs.reverse().pop()
-
-  return addrs
+  return addrs.slice(1).reverse();
 });
 
 /**
@@ -458,18 +434,14 @@ defineGetter(req, 'host', deprecate.function(function host(){
 
 defineGetter(req, 'fresh', function(){
   var method = this.method;
-  var res = this.res
-  var status = res.statusCode
+  var s = this.res.statusCode;
 
   // GET or HEAD for weak freshness validation only
-  if ('GET' !== method && 'HEAD' !== method) return false;
+  if ('GET' != method && 'HEAD' != method) return false;
 
   // 2xx or 304 as per rfc2616 14.26
-  if ((status >= 200 && status < 300) || 304 === status) {
-    return fresh(this.headers, {
-      'etag': res.get('ETag'),
-      'last-modified': res.get('Last-Modified')
-    })
+  if ((s >= 200 && s < 300) || 304 == s) {
+    return fresh(this.headers, (this.res._headers || {}));
   }
 
   return false;
@@ -514,4 +486,4 @@ function defineGetter(obj, name, getter) {
     enumerable: true,
     get: getter
   });
-}
+};
