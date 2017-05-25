@@ -27,10 +27,32 @@ var globalCounter = (function() {
 
 })();
 
+var pins = [
+    {
+        id: 99,
+        timestamp: 1,
+        title: "Beuth Hochschule",
+        type: "website",
+        src: "http://www.beuth-hochschule.de",
+        description: "Hochschule in Berlin",
+        views: 6,
+        ranking: 1
+    },
+    {
+        id: 100,
+        timestamp: 2,
+        title: "Git",
+        type: "website",
+        src: "http://www.github.com",
+        description: "GIT Repository",
+        views: 6,
+        ranking: 2
+    }
+];
 
 // our "in memory database" is a simple object!
 var memory = {};
-
+memory.pins = pins;
 
 //** private helper functions */
 /**

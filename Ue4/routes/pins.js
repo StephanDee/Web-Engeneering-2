@@ -1,6 +1,7 @@
 /** This module defines the routes for pins using the store.js as db memory
  *
  * @author Johannes Konert
+ * @contributor Nessi Durkaya, Stephan Dünkel, Julius
  * @licence CC BY-SA 4.0
  *
  * @module routes/pins
@@ -39,9 +40,18 @@ pins.route('/')
         next();
     })
     .post(function(req,res,next) {
-        // TODO implement
-        var err = new HttpError('Unimplemented method!', codes.servererror);
-        next(err);
+        // TODO implement: req.body raus, nur Attribute für pins zulassen, nicht irgendwelche
+        var id = store.insert('pins', req.body);
+        res.locals.items = store.select('pins', id);
+        res.locals.processed = true;
+
+        // TODO Status 201 ?!
+        //res.status(201).json(store.select('pins', res.locals.items));
+
+        // TODO war vorher schon drin, kann eigentlich jetzt weg
+        //var err = new HttpError('Unimplemented method!', codes.servererror);
+        //next(err);
+        next();
     })
     .all(function(req, res, next) {
         if (res.locals.processed) {
@@ -53,12 +63,38 @@ pins.route('/')
         }
     });
 
-// TODO implement
-// pins.route('/:id').....
 
-
-
-
+pins.route('/:id')
+    .get(function(req, res, next) {
+        // TODO implement: done
+        var id = req.params.id;
+        res.locals.items = store.select('pins', id);
+        res.locals.processed = true;
+        next();
+    })
+    .delete(function(req, res, next) {
+        // TODO implement: almost done: res.status(200).end();?!
+        var id = req.params.id;
+        res.locals.items = store.remove('pins', id);
+        res.locals.processed = true;
+        next();
+    })
+    .put(function(req, res, next) {
+        // TODO implement: almost done: res.status(200).end();?!
+        var id = req.param.id;
+        res.local.items = store.replace('pins', id, req.body);
+        res.locals.processed = true;
+        next();
+    })
+    .all(function(req, res, next) {
+        if (res.locals.processed) {
+            next();
+        } else {
+            // reply with wrong method code 405
+            var err = new HttpError('this method is not allowed at ' + req.originalUrl, codes.wrongmethod);
+            next(err);
+        }
+    });
 
 
 /**

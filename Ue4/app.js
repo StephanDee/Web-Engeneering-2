@@ -8,6 +8,7 @@
  * DEBUG=we2:*
  *
  * @author Johannes Konert
+ * @contributor Nessi Durkaya, Stephan Dünkel, Julius
  * @licence CC BY-SA 4.0
  *
  */
