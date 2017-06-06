@@ -19,6 +19,8 @@ var logger = require('debug')('we2:pins');
 var store = require('../blackbox/store');
 var codes = require('../restapi/http-codes'); // if you like, you can use this for status codes, e.g. res.status(codes.success);
 var HttpError = require('../restapi/http-error.js');
+var bodyParser = require('body-parser');
+var dateFormat = require("dateformat");
 
 var pins = express.Router();
 
@@ -30,30 +32,52 @@ var requiredKeys = {title: 'string', type: ['image', 'video', 'website'], src: '
 var optionalKeys = {description: 'string', views: 'number', ranking: 'number'};
 var internalKeys = {id: 'number', timestamp: 'number'};
 
-
 /* GET all pins */
 pins.route('/')
-    .get(function(req, res, next) {
+    .get(function (req, res, next) {
         res.locals.items = store.select('pins');
         res.locals.processed = true;
         logger("GET fetched store items");
+        res.status(200);
         next();
     })
-    .post(function(req,res,next) {
-        // TODO implement: req.body raus, nur Attribute für pins zulassen, nicht irgendwelche
-        var id = store.insert('pins', req.body);
+    .post(function (req, res, next) {
+        var newObject = {};
+        newObject.timestamp = dateFormat(res.systemDate, "yyyy-mm-dd");
+        newObject.description = "";
+        var text = req.body.description;
+
+        if (req.body.type == null) {
+            res.status(400);
+        }
+        for (var i = 0; i < requiredKeys.type.length; i++) {
+            if (requiredKeys.type[i] == req.body.type) {
+                newObject.type = [req.body.type];
+            }
+        }
+        if (req.body.title != null || req.body.src != null) {
+            newObject.title = req.body.title;
+            newObject.src = req.body.src;
+        }
+        if (req.body.description <= 0 || req.body.description >= 0 || req.body.description==null) {
+            newObject.description = " ";
+        } else
+            newObject.description = text;
+
+        if (req.body.views == null || req.body.views < 0) {
+            newObject.views = 0;
+        } else
+            newObject.views = req.body.views;
+        if (req.body.ranking == null || req.body.ranking < 0) {
+            newObject.ranking = 0;
+        } else
+            newObject.ranking = req.body.ranking;
+        var id = store.insert('pins', newObject);
         res.locals.items = store.select('pins', id);
         res.locals.processed = true;
-
-        // TODO Status 201 ?!
-        //res.status(201).json(store.select('pins', res.locals.items));
-
-        // TODO war vorher schon drin, kann eigentlich jetzt weg
-        //var err = new HttpError('Unimplemented method!', codes.servererror);
-        //next(err);
         next();
     })
-    .all(function(req, res, next) {
+    .all(function (req, res, next) {
         if (res.locals.processed) {
             next();
         } else {
@@ -65,28 +89,58 @@ pins.route('/')
 
 
 pins.route('/:id')
-    .get(function(req, res, next) {
+    .get(function (req, res, next) {
         // TODO implement: done
         var id = req.params.id;
         res.locals.items = store.select('pins', id);
         res.locals.processed = true;
+        res.status(200);
         next();
     })
-    .delete(function(req, res, next) {
+    .delete(function (req, res, next) {
         // TODO implement: almost done: res.status(200).end();?!
         var id = req.params.id;
         res.locals.items = store.remove('pins', id);
         res.locals.processed = true;
+        res.status(204);
         next();
     })
-    .put(function(req, res, next) {
-        // TODO implement: almost done: res.status(200).end();?!: req.body austauschen... wie post oben
-        var id = req.param.id;
-        res.locals.items = store.replace('pins', id, req.body);
+    .put(function (req, res, next) {
+        var id = req.params.id;
+        var newObject = {};
+        for (var i = 0; i < requiredKeys.type.length; i++) {
+
+            if (requiredKeys.type[i] == req.body.type && req.body.type != null) {
+                newObject.type = [req.body.type];
+            }
+            else if (req.body.title != null || req.body.src != null) {
+                newObject.title = req.body.title;
+                newObject.src = req.body.src;
+            }
+            else {
+                res.status(400);
+                var err = new HttpError('Wrong Type!', codes.wrongrequest);
+                next(err);
+            }
+        }
+        if (req.body.description <= 0 || req.body.description >= 0) {
+            newObject.description = " ";
+        } else
+            newObject.description = req.body.description;
+
+        if (req.body.views == null || req.body.views < 0) {
+            newObject.views = 0;
+        } else   newObject.views = req.body.views;
+        if (req.body.ranking == null || req.body.ranking < 0) {
+            newObject.ranking = 0;
+        } else
+            newObject.ranking = req.body.ranking;
+        store.replace('pins', id, newObject);
+        res.locals.items = newObject;
         res.locals.processed = true;
         next();
     })
-    .all(function(req, res, next) {
+    .all(function (req, res, next) {
         if (res.locals.processed) {
             next();
         } else {
@@ -100,14 +154,26 @@ pins.route('/:id')
 /**
  * This middleware would finally send any data that is in res.locals to the client (as JSON) or, if nothing left, will send a 204.
  */
-pins.use(function(req, res, next){
+pins.use(function (req, res, next) {
     if (res.locals.items) {
         res.json(res.locals.items);
         delete res.locals.items;
     } else if (res.locals.processed) {
         res.set('Content-Type', 'application/json');
-        if (res.get('Status-Code') == undefined) { // maybe other code has set a better status code before
+        if (res.get('Status-Code') == created) { // maybe other code has set a better status code before
+            res.status(201); // no content;
+        }
+        if (res.get('Status-Code') == nocontent) { // maybe other code has set a better status code before
             res.status(204); // no content;
+        }
+        if (res.get('Status-Code') == wrongrequest) { // maybe other code has set a better status code before
+            res.status(400); // no content;
+        }
+        if (res.get('Status-Code') == wrongdatatyperequest) { // maybe other code has set a better status code before
+            res.status(406); // no content;
+        }
+        if (res.get('Status-Code') == wrongmediasend) { // maybe other code has set a better status code before
+            res.status(415); // no content;
         }
         res.end();
     } else {
