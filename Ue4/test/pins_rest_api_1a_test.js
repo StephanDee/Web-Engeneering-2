@@ -188,7 +188,6 @@ describe.skip('Task 1.a CRUD', function() {
                 .delete('/'+pinCorrect1Result.id)
                 .set('Accept-Version', '1.0')
                 .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
                 .expect(codes.nocontent)
                 .end(function(err, res) {
                     should.not.exist(err);
@@ -201,7 +200,6 @@ describe.skip('Task 1.a CRUD', function() {
                 .delete('/'+pinCorrect1Result.id)
                 .set('Accept-Version', '1.0')
                 .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
                 .expect(codes.notfound)
                 .end(function(err, res) {
                     should.not.exist(err);
