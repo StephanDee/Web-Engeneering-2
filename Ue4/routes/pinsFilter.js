@@ -11,10 +11,11 @@ router.use(function (req, res, next) {
                 next();
                 return;
             }
-            res.locals.items = [];
+            var items = [];
             toSend.forEach(function (item) {
-                res.locals.items.push(setItems(item));
+                items.push(setItems(item));
             });
+            res.locals.items = items;
         }
     }
 
@@ -36,7 +37,7 @@ router.use(function (req, res, next) {
     };
 
     function contains(urlData, item) {
-        var filterData = ["title", "type", "src", "views", "description", "ranking"];
+        var filterData = ["title", "type", "src", "views", "description", "ranking","id","timestamp"];
         if (filterData.indexOf(urlData) == -1) {
             res.status(400);
             return false;

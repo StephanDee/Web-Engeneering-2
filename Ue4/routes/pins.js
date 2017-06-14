@@ -92,7 +92,9 @@ pins.route('/')
         res.locals.items = store.select('pins', id);
         res.locals.processed = true;
         res.status(201);
+        res.send(newObject);
         next();
+        return;
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {
@@ -189,7 +191,9 @@ pins.route('/:id')
 
         res.locals.items = store.replace('pins', id, newObject);
         res.locals.processed = true;
+        res.send(newObject);
         next();
+        return;
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {
