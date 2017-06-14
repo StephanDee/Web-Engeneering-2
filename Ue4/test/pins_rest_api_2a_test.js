@@ -22,7 +22,7 @@ var pinCorrectMin = cfg.pinCorrectMin;
 var pinCorrectMax = cfg.pinCorrectMax;
 
 // start of tests ********************************************************************************
-describe.skip('Task 2.a Filter', function() {
+describe('Task 2.a Filter', function() {
     var pinCorrect1Result = null;
     var pinCorrect2Result = null;
     var pinIDsCleanup = [];

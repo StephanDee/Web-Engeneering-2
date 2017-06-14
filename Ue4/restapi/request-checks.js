@@ -1,29 +1,9 @@
-/** This module defines a express.Router() instance
- * - checking Accept-Version header to be 1.0
- * - body-data to be JSON on POST/PUT/PATCH
- * - body to be not empty on POST/PUT/PATCH
- * - Request accepts JSON as reply content-type
- *
- * @author Johannes Konert
- * @licence CC BY-SA 4.0
- *
- * @module restapi/request-checks
- * @type {Router}
- */
-
-// remember: in modules you have 3 variables given by CommonJS
-// 1.) require() function
-// 2.) module.exports
-// 3.) exports (which is module.exports)
 
 var router = require('express').Router();
 
-// API-Version control. We use HTTP Header field Accept-Version instead of URL-part /v1/
 router.use(function(req, res, next){
-    // expect the Accept-Version header to be NOT set or being 1.0
     var versionWanted = req.get('Accept-Version');
     if (versionWanted !== undefined && versionWanted !== '1.0') {
-        // 406 Accept-* header cannot be fulfilled.
         res.status(406).send('Accept-Version cannot be fulfilled').end();
     } else {
         next(); // all OK, call next handler
@@ -49,17 +29,62 @@ router.use(function(req, res, next) {
 
 // request POST, PUT check that any content was send
 router.use(function(req, res, next) {
-    var err = undefined;
+var err = undefined;
     if (['POST', 'PUT', 'PATCH'].indexOf(req.method) > -1 && parseInt(req.get('Content-Length')) === 0) {
         err = new Error("content in body is missing");
         err.status = 400;
         next(err);
-    } else if ('PUT' === req.method && !(req.body.id || req.body._id)) {
+    }
+    
+    else if ('PUT' === req.method && !(req.body.id || req.body._id)) {
         err = new Error("content in body is missing field id or _id");
         err.status = 400;
         next(err);
     }
+    var setTitleHref = function(item) {
+        item.title = {
+            href: req.protocol + '://' + req.get('host') + req.baseUrl +'/'+ item.id + '/title'
+        };
+
+        if (req.query.filter === "title") {
+           // req.query.filter.split(","); foreach
+
+            var title = getTitleObject(item.id);
+          //  var keepOldHref = item.tweets.href;
+            if (title) {
+                item.title = "thbjiko";
+               // item.title.href = keepOldHref; // set back to correct value inside of /user/:id
+            }
+        }
+    };
+    var toSend = res.locals.item;
+    if (toSend) {
+        if (!Array.isArray(toSend)) {
+            setTitleHref(toSend);
+        } else {
+            toSend.forEach(setTitleHref);
+        }
+    }
     next();
 });
+
+var getTitleObject = function getTitleObject(userId) {
+    var regExp = undefined;
+    var allPins = store.select("pins");
+    
+    if (!allPins || allPins.length == 0) {
+        return undefined;
+    }
+    
+    allPins = allPins.filter(function(element) {
+        regExp = new RegExp('pins/'+userId);
+        return (element && element.creator && regExp.test(element.creator.href));
+    });
+    
+    if (!allPins || allPins.length == 0) {
+        return undefined;
+    }
+    return allPins; // the found tweets
+};
 
 module.exports = router;

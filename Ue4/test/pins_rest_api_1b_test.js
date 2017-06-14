@@ -24,7 +24,7 @@ var pinIncorrectNumber = cfg.pinIncorrectNumber;
 var pinIncorrectType = cfg.pinIncorrectType;
 
 // start of tests ********************************************************************************
-describe.skip('Task 1.b JSON Error data', function() {
+describe('Task 1.b JSON Error data', function() {
     var pinCorrect1Result = null;
     var pinCorrect2Result = null;
     var pinIDsCleanup = [];
@@ -46,7 +46,7 @@ describe.skip('Task 1.b JSON Error data', function() {
                     res.should.be.json();
                     res.body.should.have.properties(Object.getOwnPropertyNames(pinCorrectMin));
                     res.body.should.have.property('id').above(0);
-                    res.body.should.have.property('timestamp').within(startDate.getTime(), stopDate.getTime());
+                    res.body.should.have.property('timestamp').within(startDate.getTime()-30000, stopDate.getTime()+30000);
                     res.body.should.have.property('views', 0);
                     res.body.should.have.property('ranking', 0);
                     pinCorrect1Result = res.body;
@@ -163,7 +163,7 @@ describe.skip('Task 1.b JSON Error data', function() {
     // *******************************************************
     describe('/pins/:id REST API PUT', function() {
         // good PUTs
-        it('should save a proper PUT with required fields and change in .length', function(done) {
+        it('should save a proper PUT with required fields and change in .views', function(done) {
             pinCorrect1Result.views = 4*60+2;
             request(pinURL)
                 .put('/'+pinCorrect1Result.id)
