@@ -53,7 +53,7 @@ pins.route('/')
         var pin = new Pin(req.body);
         pin.save(function (err) {
             if (err) {
-                err.status = 400;
+                err.status = codes.wrongrequest;
                 res.status(err.status).json({
                     'error': {
                         'message': err.message,
@@ -100,11 +100,14 @@ pins.route('/')
 pins.route('/:id')
     .get(function (req, res, next) {
 
-        // TODO replace store and use mongoose/MongoDB
+        // store.select with mongoose - mongodb
         Pin.findById(req.params.id, function (err, items) {
             res.json(items);
         });
+
+        // old solution with store.js
         // res.locals.items = store.select(storeKey, req.params.id);
+
         res.locals.processed = true;
 
         //Remove this next(), this causes next middleware to be executed.
@@ -120,6 +123,21 @@ pins.route('/:id')
     })
     .delete(function (req, res, next) {
         // TODO replace store and use mongoose/MongoDB
+        Pin.findByIdAndRemove(req.params.id, function (err, pin) {
+            if (err) {
+                err.status = codes.wrongrequest;
+                res.status(err.status).json({
+                    'error': {
+                        'message': err.message,
+                        'code': codes.wrongrequest
+                    }
+                });
+
+            }
+            res.status(200).json(pin);
+        });
+
+        // old solution with store.js
         // store.remove(storeKey, id);
 
         // ...
@@ -127,7 +145,9 @@ pins.route('/:id')
         //    next(err);
         // ...
         res.locals.processed = true;
-        next();
+
+        //Remove this next(), this causes next middleware to be executed.
+        // next();
     })
     .patch(function (req, res, next) {
 
