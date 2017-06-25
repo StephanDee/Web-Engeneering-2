@@ -19,11 +19,10 @@ var codes = require('../restapi/http-codes');
 var HttpError = require('../restapi/http-error.js');
 
 // TODO add here your require for your own model file
-var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost:27017/we2');
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/27017/we2');
 
-var PinModel = require('../models/pin.js')
-
+var Pin = require('../models/pin.js');
 
 var pins = express.Router();
 
@@ -31,40 +30,64 @@ var storeKey = 'pins';
 
 // routes **************
 pins.route('/')
-    .get(function(req, res, next) {
+    .get(function (req, res, next) {
 
-        // TODO replace store and use mongoose/MongoDB
-        PinModel.find({}, function(err, items){
+        // store.select with mongoose - mongodb
+        Pin.find({}, function (err, items) {
             res.json(items);
         });
 
+        // old solution with store.js
         // res.locals.items = store.select(storeKey);
+
         res.locals.processed = true;
         logger("GET fetched items");
-        next();
+
+        //Remove this next(), this causes next middleware to be executed.
+        //next();
     })
-    .post(function(req,res,next) {
+    .post(function (req, res, next) {
         req.body.timestamp = new Date().getTime();
 
-        // TODO replace store and use mongoose/MongoDB
-        var id = new PinModel(req.body);
-        id.save(function (err) {
-            if(err){
-                return next(err);
+        // store.insert - mongoose
+        var pin = new Pin(req.body);
+        pin.save(function (err) {
+            if (err) {
+                err.status = 400;
+                res.status(err.status).json({
+                    'error': {
+                        'message': err.message,
+                        'code': codes.wrongrequest
+                    }
+                });
+
+                return;
+
+                // other solution, but without 'code'
+                // save - can be deleted afterwards
+                // err.message += ' in fields: '
+                //     + Object.getOwnPropertyNames(err.errors);
+
+                // Remove this next(), this causes next middleware to be executed.
+                // return next(err);
             }
-            res.status(201).json(id);
+            res.status(201).json(pin);
         });
 
+        // old solution with store.js
         // var id = store.insert(storeKey, req.body);
 
-        res.status(codes.created);
 
-        // TODO replace store and use mongoose/MongoDB
+        // res.status(codes.created);
+
+        // old solution with store.js
         // res.locals.items = store.select(storeKey, id);
         res.locals.processed = true;
-        next();
+
+        //Remove this next(), this causes next middleware to be executed.
+        //next();
     })
-    .all(function(req, res, next) {
+    .all(function (req, res, next) {
         if (res.locals.processed) {
             next();
         } else {
@@ -75,14 +98,19 @@ pins.route('/')
     });
 
 pins.route('/:id')
-    .get(function(req, res,next) {
+    .get(function (req, res, next) {
+
         // TODO replace store and use mongoose/MongoDB
+        Pin.findById(req.params.id, function (err, items) {
+            res.json(items);
+        });
         // res.locals.items = store.select(storeKey, req.params.id);
         res.locals.processed = true;
-        next();
-    })
-    .put(function(req, res,next) {
 
+        //Remove this next(), this causes next middleware to be executed.
+        // next();
+    })
+    .put(function (req, res, next) {
         // TODO replace store and use mongoose/MongoDB
         // store.replace(storeKey, req.body.id, req.body);
         res.status(codes.success);
@@ -90,7 +118,7 @@ pins.route('/:id')
         res.locals.processed = true;
         next();
     })
-    .delete(function(req,res,next) {
+    .delete(function (req, res, next) {
         // TODO replace store and use mongoose/MongoDB
         // store.remove(storeKey, id);
 
@@ -101,14 +129,14 @@ pins.route('/:id')
         res.locals.processed = true;
         next();
     })
-    .patch(function(req,res,next) {
+    .patch(function (req, res, next) {
 
         // TODO replace these lines by correct code with mongoose/mongoDB
         var err = new HttpError('Unimplemented method!', codes.servererror);
         next(err);
     })
 
-    .all(function(req, res, next) {
+    .all(function (req, res, next) {
         if (res.locals.processed) {
             next();
         } else {
@@ -122,7 +150,7 @@ pins.route('/:id')
  * This middleware would finally send any data that is in res.locals to the client (as JSON)
  * or, if nothing left, will send a 204.
  */
-pins.use(function(req, res, next){
+pins.use(function (req, res, next) {
     if (res.locals.items) {
         res.json(res.locals.items);
         delete res.locals.items;

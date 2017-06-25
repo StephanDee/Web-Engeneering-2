@@ -8,18 +8,23 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var enu = {
+    values: ['image', 'video', 'website'],
+    message: 'image, video, website are the only required values.'
+};
+
 // Pins scheme
-var PinSchema = new Schema({
-    _id: { type: Schema.Types.ObjectId, unique: [true, '_id must be unique']},
-    timestamp: { type : Date, default: Date.now },
-    title: { type: String, required: [true, 'title required.']},
-    type: { type: String, ref: ["image", "video", "website"], required: [true, 'type required.']},
-    src: { type: String, required: [true, 'source required.']},
-    description: { type: String, default: ""},
-    views: { type: Number, min: 0, default: 0},
-    ranking: { type: Number, min: 0, default: 0}
+var pinSchema = new Schema({
+    // mongoose does set the following attributes itself:
+    // (_id - the ID, __V: - the version or revision after update)
+
+    timestamp: {type: Date, default: Date.now},
+    title: {type: String, required: [true, 'title required.']},
+    type: {type: String, enum: enu, message: 'image', trim: true, required: [true, 'type required.']},
+    src: {type: String, required: [true, 'source required.']},
+    description: {type: String, default: ""},
+    views: {type: Number, min: 0, default: 0},
+    ranking: {type: Number, min: 0, default: 0}
 });
 
-mongoose.model('PinSchema', PinSchema);
-
-module.exports = mongoose.model('pins', PinSchema);
+module.exports = mongoose.model('Pin', pinSchema);

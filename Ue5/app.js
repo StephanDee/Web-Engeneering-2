@@ -25,6 +25,12 @@ var HttpError = require('./restapi/http-error');
 
 var pins = require('./routes/pins');
 
+// add mongodb
+var mongoose = require('mongoose');
+// resolves warning 'mpromise depricated'
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost:27017/we2');
+// ('mongodb://localhost:27017/we2', function(err) { if (err) console.log(err); } );
 
 
 // app creation
