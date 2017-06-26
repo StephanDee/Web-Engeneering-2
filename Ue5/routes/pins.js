@@ -31,14 +31,38 @@ pins.route('/')
     .get(function (req, res, next) {
         // store.select with mongoose - mongodb
         Pin.find({}, function (err, items) {
-            res.json(items);
+            // if (err) {
+            //     err.status = codes.wrongrequest;
+            //     res.status(err.status).json({
+            //         'error': {
+            //             'message': err.message + ' in fields: '
+            //             + Object.getOwnPropertyNames(err.errors),
+            //             'code': codes.wrongrequest
+            //         }
+            //     });
+            //     return;
+            // } else {
+            // Filter
+
+            // Filter
+            if (req.query.filter != undefined) {
+                var values = req.query.filter.split(",");
+                Pin.find({}, values, function (err, items) {
+                    // Success
+                    res.status(200);
+                    res.locals.items = items;
+                    res.locals.processed = true;
+                    next();
+                });
+            }
+            // Success
+            res.status(200);
+            res.locals.items = items;
+            res.locals.processed = true;
+            logger("GET fetched items");
+            next();
+            // }
         });
-        // old solution with store.js
-        // res.locals.items = store.select(storeKey);
-        res.locals.processed = true;
-        logger("GET fetched items");
-        //Remove this next(), this causes next middleware to be executed.
-        //next();
     })
     .post(function (req, res, next) {
         // not used for this solution
@@ -47,41 +71,24 @@ pins.route('/')
         // store.insert - mongoose
         var pin = new Pin(req.body);
         pin.save(function (err) {
-            // solution from SU 08 page 74
-            //     if(!err){
-            //         res.status(201).json(pin);
-            //     } else {
-            //         err.status = 400;
-            //         err.message += 'in fields: '
-            //     }
-            //     next(err);
-            // });
             if (err) {
+                // Error - 400
                 err.status = codes.wrongrequest;
                 res.status(err.status).json({
                     'error': {
-                        'message': err.message,
+                        'message': err.message + ' in fields: '
+                        + Object.getOwnPropertyNames(err.errors),
                         'code': codes.wrongrequest
                     }
                 });
                 return;
-                // other solution, but without 'code'
-                // save - can be deleted afterwards
-                // err.message += ' in fields: '
-                //     + Object.getOwnPropertyNames(err.errors);
-                // Remove this next(), this causes next middleware to be executed.
-                // return next(err);
             }
-            res.status(201).json(pin);
+            // Created
+            res.status(201);
+            res.locals.items = pin;
+            res.locals.processed = true;
+            next();
         });
-        // old solution with store.js
-        // var id = store.insert(storeKey, req.body);
-        // res.status(codes.created);
-        // old solution with store.js
-        // res.locals.items = store.select(storeKey, id);
-        res.locals.processed = true;
-        //Remove this next(), this causes next middleware to be executed.
-        //next();
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {
@@ -97,89 +104,140 @@ pins.route('/:id')
     .get(function (req, res, next) {
         // store.select with mongoose - mongodb
         var id = req.params.id;
-        Pin.findById(id, function (err, items) {
-            res.json(items);
-        });
-        // old solution with store.js
-        // res.locals.items = store.select(storeKey, req.params.id);
-        res.locals.processed = true;
-        //Remove this next(), this causes next middleware to be executed.
-        // next();
-    })
-    .put(function (req, res, next) {
-        // TODO store.update with mongoose - mongodb
-        var id = req.params.id;
-        Pin.findById(id, function (err, pin) {
+        Pin.findById(id, function (err, item) {
             if (err) {
-                err.status = codes.notfound;
+                // Error - not found
+                err.status = 404;
                 res.status(err.status).json({
                     'error': {
-                        'message': 'No element found with id: ' + req.params.id,
+                        'message': 'No element found with id: ' + id,
                         'code': codes.notfound
                     }
                 });
                 return;
             }
-
-            pin.save(function (err) {
-                if (err) {
-                    err.status = codes.wrongrequest;
-                    res.status(err.status).json({
-                        'error': {
-                            'message': err.message,
-                            'code': codes.wrongrequest
-                        }
-                    });
-                    return;
-                    // other solution, but without 'code'
-                    // save - can be deleted afterwards
-                    // err.message += ' in fields: '
-                    //     + Object.getOwnPropertyNames(err.errors);
-                    // Remove this next(), this causes next middleware to be executed.
-                    // return next(err);
-                }
-                res.status(200).json(pin);
-            });
+            // Filter
+            if (req.query.filter != undefined) {
+                var values = req.query.filter.split(",");
+                Pin.find({}, values, function (err, items) {
+                    // Success
+                    res.status(200);
+                    res.locals.items = items;
+                    res.locals.processed = true;
+                    next();
+                });
+            }
+            // success
+            res.status(200);
+            res.locals.items = item;
+            res.locals.processed = true;
+            next();
         });
-        // old solution with store.js
-        // store.replace(storeKey, req.body.id, req.body);
-        // old solution with store.js
-        // res.locals.items = store.select(storeKey, id);
-        res.locals.processed = true;
-        //Remove this next(), this causes next middleware to be executed.
-        // next();
+    })
+    .put(function (req, res, next) {
+        // store.update with mongoose - mongodb
+        var pin = new Pin(req.body);
+        var id = req.params.id;
+
+        // Check id
+        if (pin._id != id) {
+            //Error 400
+            var err = new HttpError('No element found with id: ' + id, codes.notfound);
+            next(err);
+            return;
+        }
+
+        // Check requierd values
+        if (pin.title === undefined) {
+            var err = new HttpError('Title is required.', codes.wrongrequest);
+            next(err);
+            return;
+        }
+        if (pin.type === undefined) {
+            var err = new HttpError('Type is required', codes.wrongrequest);
+            next(err);
+            return;
+        }
+        if (pin.src === undefined) {
+            var err = new HttpError('Src is required.', codes.wrongrequest);
+            next(err);
+            return;
+        }
+        if (pin.type !== 'image' && pin.type !== 'video' && pin.type !== 'website') {
+            var err = new HttpError('Type must be image, video or website.', codes.wrongrequest);
+            next(err);
+            return;
+        }
+
+        // Check value datatype
+        var views = parseInt(pin.views);
+        var ranking = parseInt(pin.ranking);
+        // NaN = not a number
+        if (views < 0 || ranking < 0 || views === NaN || ranking === NaN) {
+            //ERROR 400
+            var err = new HttpError('Ranking or views must be positive numbers.', codes.wrongrequest);
+            next(err);
+            return;
+        }
+
+        // Set Default if undefined
+        if (pin.description === undefined) {
+            pin.description = "";
+        }
+        if (pin.views === undefined) {
+            pin.views = 0;
+        }
+        if (pin.ranking === undefined) {
+            pin.ranking = 0;
+        }
+
+        Pin.findByIdAndUpdate(id, pin, {new: true}, function (err, item) {
+            if (err) {
+                // Error - not found
+                err.status = 404;
+                res.status(err.status).json({
+                    'error': {
+                        'message': 'No element found with id: ' + id,
+                        'code': codes.notfound
+                    }
+                });
+                return;
+            }
+            // Success
+            res.status(200);
+            res.locals.items = item;
+            res.locals.processed = true;
+            next();
+        });
     })
     .delete(function (req, res, next) {
         // store.remove with mongoose - mongodb
         var id = req.params.id;
-        Pin.findByIdAndRemove(id, function (err, pin) {
+        Pin.findByIdAndRemove(id, function (err) {
             if (err) {
+                // Error 404
                 err.status = codes.notfound;
                 res.status(err.status).json({
                     'error': {
-                        'message': 'No element to delete with id: ' + req.params.id,
+                        'message': 'No element found to delete with id: ' + id,
                         'code': codes.notfound
                     }
                 });
             } else {
-                res.status(200).end();
+                // Success
+                res.status(200);
+                res.locals.processed = true;
+                next();
             }
         });
-        // old solution with store.js
-        // store.remove(storeKey, id);
-        // ...
-        //    var err = new HttpError('No element to delete with id ' + req.params.id, codes.notfound);
-        //    next(err);
-        // ...
-        res.locals.processed = true;
-        //Remove this next(), this causes next middleware to be executed.
-        // next();
     })
     .patch(function (req, res, next) {
         // store.patch with mongoose - mongoDB
         var id = req.params.id;
-        Pin.findByIdAndUpdate(id, req.body, {runValidators: true, new: true}, function (err, pin) {
+        var body = req.body;
+        Pin.findByIdAndUpdate(id, body, {runValidators: true, new: true}, function (err, item) {
             if (err) {
+                // Error 400
                 err.status = codes.wrongrequest;
                 res.status(err.status).json({
                     'error': {
@@ -189,11 +247,12 @@ pins.route('/:id')
                 });
                 return;
             }
-            res.status(200).json(pin);
+            // Success
+            res.status(200);
+            res.locals.items = item;
+            res.locals.processed = true;
+            next();
         });
-        res.locals.processed = true;
-        //Remove this next(), this causes next middleware to be executed.
-        //next();
     })
     .all(function (req, res, next) {
         if (res.locals.processed) {
@@ -215,26 +274,8 @@ pins.use(function (req, res, next) {
         delete res.locals.items;
     } else if (res.locals.processed) {
         res.set('Content-Type', 'application/json'); // not really necessary if "no content"
-        if (res.get('Status-Code') == undefined || res.get('Status-Code') == 204) { // maybe other code has set a better status code before
+        if (res.get('Status-Code') == undefined) { // maybe other code has set a better status code before
             res.status(204); // no content;
-        }
-        if (res.get('Status-Code') == 201) {
-            res.status(201);
-        }
-        if (res.get('Status-Code') == 400) {
-            res.status(400);
-        }
-        if (res.get('Status-Code') == 405) {
-            res.status(405);
-        }
-        if (res.get('Status-Code') == 404) {
-            res.status(404);
-        }
-        if (res.get('Status-Code') == 409) {
-            res.status(409);
-        }
-        if (res.get('Status-Code') == 415) {
-            res.status(415);
         }
         res.end();
     } else {

@@ -2,6 +2,10 @@
  * This module defines the mongoose scheme for pin.
  *
  * @author Nessi, Julius, Stephan
+ * @licence CC BY-SA 4.0
+ *
+ * @module models/pin
+ * @type {Schema}
  */
 
 // module
@@ -14,7 +18,7 @@ var enu = {
     message: 'image, video, website are the only required values.'
 };
 
-// Pins scheme
+// Pins schema
 var pinSchema = new Schema({
     // mongoose does set the following attributes itself:
     // (_id - the ID, __V: - the version or revision after update)
