@@ -8,6 +8,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+// type - validation
 var enu = {
     values: ['image', 'video', 'website'],
     message: 'image, video, website are the only required values.'
